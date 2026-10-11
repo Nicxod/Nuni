@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: cassavaflow-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/api
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cassavaflow-db
+          property: connectionString
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: API_PORT
+        value: "8000"
+
+databases:
+  - name: cassavaflow-db
+    plan: free
+    region: singapore
+    databaseName: cassavaflow
+    user: cassavaflow

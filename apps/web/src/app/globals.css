@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #15803D;
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #22C55E;
+  --color-on-secondary: #0F172A;
+  --color-accent: #A16207;
+  --color-on-accent: #FFFFFF;
+  --color-background: #F8FAF8;
+  --color-foreground: #14532D;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #14532D;
+  --color-muted: #F1F5F2;
+  --color-muted-foreground: #475569;
+  --color-border: #E2E8F0;
+  --color-border-accent: #BBF7D0;
+  --color-destructive: #DC2626;
+
+  /* Density 8/10 Spacing Tokens */
+  --space-xs: 0.125rem;
+  --space-sm: 0.25rem;
+  --space-md: 0.5rem;
+  --space-lg: 0.75rem;
+  --space-xl: 1rem;
+  --space-2xl: 1.5rem;
+}
+
+body {
+  background-color: var(--color-background);
+  color: #1F2937;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom utility classes */
+.badge-simulasi {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  background-color: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FCD34D;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-surplus {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #86EFAC;
+}
+
+.badge-deficit {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: #FEE2E2;
+  color: #B91C1C;
+  border: 1px solid #FCA5A5;
+}
+
+.badge-balanced {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #93C5FD;
+}

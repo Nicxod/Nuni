@@ -1,0 +1,251 @@
+export type UserRole = "admin" | "farmer" | "buyer" | "viewer";
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface Farm {
+  id: string;
+  owner_user_id: string;
+  group_name: string | null;
+  village: string;
+  area_hectares: number;
+  notes: string | null;
+}
+
+export interface CropPlan {
+  id: string;
+  farm_id: string;
+  crop_name: string;
+  variety: string | null;
+  planting_date: string | null;
+  expected_harvest_date: string;
+  area_hectares: number;
+  expected_yield_kg: number | null;
+  status: "planned" | "growing" | "ready_to_harvest" | "harvested" | "failed";
+  data_origin: "actual" | "manual_estimate" | "simulation";
+  notes: string | null;
+}
+
+export interface HarvestRecord {
+  id: string;
+  farm_id: string;
+  crop_plan_id: string | null;
+  harvest_date: string;
+  quantity_kg: number;
+  quality_grade: string | null;
+  rejected_quantity_kg: number;
+  data_origin: string;
+  notes: string | null;
+}
+
+export interface InventoryBatch {
+  id: string;
+  farm_id: string;
+  harvest_record_id: string | null;
+  batch_code: string;
+  harvest_date: string;
+  initial_quantity_kg: number;
+  available_quantity_kg: number;
+  reserved_quantity_kg: number;
+  quality_grade: string | null;
+  condition_notes: string | null;
+  status: "available" | "ordered" | "allocated" | "processing" | "sold" | "spoiled" | "discarded";
+  handling_deadline: string | null;
+  data_origin: string;
+  created_at: string;
+}
+
+export interface Buyer {
+  id: string;
+  user_id: string | null;
+  business_name: string;
+  buyer_category: "umkm_chips" | "tapioca_factory" | "fresh_market" | "animal_feed" | "other";
+  village_or_area: string;
+  contact_phone: string | null;
+  max_quantity_kg: number | null;
+  preferred_grade: string | null;
+  lead_time_days: number | null;
+  is_verified: boolean;
+  status: string;
+}
+
+export interface BuyerNeed {
+  id: string;
+  buyer_id: string;
+  buyer_name?: string;
+  needed_from: string;
+  needed_until: string;
+  quantity_kg: number;
+  minimum_grade: string | null;
+  target_price_per_kg: number | null;
+  status: "planned" | "confirmed" | "cancelled" | "fulfilled";
+  data_origin: string;
+}
+
+export interface Transaction {
+  id: string;
+  buyer_id: string;
+  buyer_name?: string;
+  farmer_id: string | null;
+  transaction_date: string;
+  order_date: string;
+  fulfilled_date: string | null;
+  quantity_ordered_kg: number;
+  quantity_fulfilled_kg: number;
+  unit_price: number;
+  total_amount: number;
+  delivery_cost: number | null;
+  status: "draft" | "confirmed" | "fulfilled" | "cancelled" | "rejected";
+  data_origin: string;
+  notes: string | null;
+}
+
+export interface ForecastPoint {
+  id: string;
+  period_start: string;
+  period_end: string;
+  predicted_quantity_kg: number;
+  lower_bound_kg: number | null;
+  upper_bound_kg: number | null;
+  actual_quantity_kg: number | null;
+  baseline_quantity_kg: number | null;
+}
+
+export interface ForecastRun {
+  id: string;
+  forecast_type: "supply" | "demand";
+  period_start: string;
+  period_end: string;
+  granularity: string;
+  method_name: string;
+  model_version: string;
+  generated_at: string;
+  observations_count: number;
+  metrics_json: {
+    mae: number;
+    rmse: number;
+    wape: number;
+  } | null;
+  quality_status: "reliable" | "low_confidence" | "insufficient_data";
+  notes: string | null;
+  points: ForecastPoint[];
+}
+
+export interface GapPeriodPoint {
+  period_start: string;
+  period_end: string;
+  period_label: string;
+  usable_stock_kg: number;
+  forecast_harvest_kg: number;
+  confirmed_orders_kg: number;
+  forecast_demand_kg: number;
+  projected_available_supply_kg: number;
+  projected_gap_kg: number;
+  gap_status: "surplus" | "deficit" | "balanced" | "insufficient_data";
+  notes: string;
+}
+
+export interface GapAnalysisResponse {
+  total_usable_stock_kg: number;
+  total_forecast_harvest_kg: number;
+  total_confirmed_orders_kg: number;
+  total_forecast_demand_kg: number;
+  overall_net_gap_kg: number;
+  periods: GapPeriodPoint[];
+  surplus_periods_count: number;
+  deficit_periods_count: number;
+  data_origin: string;
+  generated_at: string;
+}
+
+export interface ProcessingOption {
+  id: string;
+  name: string;
+  description: string | null;
+  input_unit: string;
+  output_unit: string;
+  yield_ratio: number;
+  capacity_kg_per_day: number;
+  labor_cost: number;
+  energy_cost: number;
+  packaging_cost: number;
+  distribution_cost: number;
+  other_cost: number;
+  expected_selling_price_per_unit: number;
+  food_safety_sop_reference: string | null;
+  is_active: boolean;
+}
+
+export interface StockRecommendation {
+  id: string;
+  recommendation_type: "sell" | "allocate" | "process" | "preserve" | "find_buyer" | "procure";
+  batch_id: string | null;
+  batch_code: string | null;
+  period_start: string;
+  period_end: string;
+  quantity_kg: number | null;
+  reason: string;
+  assumptions_json: Record<string, any> | null;
+  estimated_cost: number | null;
+  estimated_value: number | null;
+  status: "pending" | "approved" | "rejected" | "completed" | "expired";
+  created_by_system_at: string;
+  reviewed_at: string | null;
+  review_notes: string | null;
+}
+
+export interface SummaryReport {
+  total_farms: number;
+  total_crop_plans_active: number;
+  total_inventory_available_kg: number;
+  total_urgent_batches_kg: number;
+  total_confirmed_orders_kg: number;
+  total_demand_forecast_kg: number;
+  projected_gap_kg: number;
+  active_recommendations_count: number;
+  registered_buyers_count: number;
+  data_origin_notice: string;
+  generated_at: string;
+}
+
+export interface ProcessingCalcResponse {
+  input_raw_cassava_kg: number;
+  raw_material_cost: number;
+  yield_ratio: number;
+  output_finished_quantity: number;
+  output_unit: string;
+  total_processing_cost: number;
+  labor_cost_total: number;
+  energy_cost_total: number;
+  packaging_cost_total: number;
+  distribution_cost_total: number;
+  other_cost_total: number;
+  total_combined_cost: number;
+  unit_cost_per_finished_unit: number;
+  expected_selling_price_per_unit: number;
+  gross_revenue: number;
+  estimated_contribution_margin: number;
+  margin_percentage: number;
+  raw_sale_revenue_comparison: number;
+  raw_sale_margin_advantage: number;
+  break_even_volume_kg: number | null;
+  disclaimer: string;
+}
+
+export interface BuyerMatchItem {
+  buyer_id: string;
+  business_name: string;
+  buyer_category: string;
+  village_or_area: string;
+  score: number;
+  matched_reasons: string[];
+  volume_match_pct: number;
+  target_price_per_kg: number | null;
+  contact_phone: string | null;
+}
