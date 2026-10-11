@@ -68,13 +68,13 @@ export default function DemandForecastPage() {
     }
   };
 
-  const chartData = forecast?.points.map((pt, idx) => ({
-    name: `W${idx + 1} (${pt.period_start})`,
-    "Prediksi Permintaan (kg)": Number(pt.predicted_quantity_kg),
-    "Batas Atas (+12%)": Number(pt.upper_bound_kg || pt.predicted_quantity_kg),
-    "Batas Bawah (-12%)": Number(pt.lower_bound_kg || pt.predicted_quantity_kg),
+  const chartData = (forecast?.points || []).map((pt: any, idx: number) => ({
+    name: `W${idx + 1} (${pt.period_start || `W${idx + 1}`})`,
+    "Prediksi Permintaan (kg)": Number(pt.predicted_quantity_kg || 0),
+    "Batas Atas (+12%)": Number(pt.upper_bound_kg || pt.predicted_quantity_kg || 0),
+    "Batas Bawah (-12%)": Number(pt.lower_bound_kg || pt.predicted_quantity_kg || 0),
     "Rata-rata Historis": Number(pt.baseline_quantity_kg || 0),
-  })) || [];
+  }));
 
   return (
     <LayoutWrapper>

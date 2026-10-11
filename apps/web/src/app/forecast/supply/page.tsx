@@ -64,13 +64,13 @@ export default function SupplyForecastPage() {
     }
   };
 
-  const chartData = forecast?.points.map((pt, idx) => ({
-    name: `W${idx + 1} (${pt.period_start})`,
-    "Prediksi Panen (kg)": Number(pt.predicted_quantity_kg),
-    "Batas Atas (+15%)": Number(pt.upper_bound_kg || pt.predicted_quantity_kg),
-    "Batas Bawah (-15%)": Number(pt.lower_bound_kg || pt.predicted_quantity_kg),
+  const chartData = (forecast?.points || []).map((pt: any, idx: number) => ({
+    name: `W${idx + 1} (${pt.period_start || `W${idx + 1}`})`,
+    "Prediksi Panen (kg)": Number(pt.predicted_quantity_kg || 0),
+    "Batas Atas (+15%)": Number(pt.upper_bound_kg || pt.predicted_quantity_kg || 0),
+    "Batas Bawah (-15%)": Number(pt.lower_bound_kg || pt.predicted_quantity_kg || 0),
     "Baseline Rata-rata": Number(pt.baseline_quantity_kg || 0),
-  })) || [];
+  }));
 
   return (
     <LayoutWrapper>

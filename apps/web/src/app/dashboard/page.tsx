@@ -95,14 +95,18 @@ export default function DashboardPage() {
   };
 
   // Prepare chart data from gap analysis periods
-  const chartData = gapData?.periods.map((p) => ({
-    name: p.period_label.replace("Minggu ", "W"),
-    "Stok Awal": Number(p.usable_stock_kg),
-    "Prediksi Panen": Number(p.forecast_harvest_kg),
-    "Pesanan Terkonfirmasi": Number(p.confirmed_orders_kg),
-    "Prediksi Permintaan": Number(p.forecast_demand_kg),
-    "Net Gap": Number(p.projected_gap_kg),
-  })) || [];
+  const chartData = (gapData?.periods || []).map((p: any, idx: number) => {
+    const rawLabel = p.period_label || p.period || p.period_start || `W${idx + 1}`;
+    const name = typeof rawLabel === "string" ? rawLabel.replace("Minggu ", "W") : `W${idx + 1}`;
+    return {
+      name,
+      "Stok Awal": Number(p.usable_stock_kg || p.total_usable_stock_kg || 0),
+      "Prediksi Panen": Number(p.forecast_harvest_kg || p.projected_supply_kg || p.projected_available_supply_kg || 0),
+      "Pesanan Terkonfirmasi": Number(p.confirmed_orders_kg || 0),
+      "Prediksi Permintaan": Number(p.forecast_demand_kg || p.remaining_forecast_demand_kg || 0),
+      "Net Gap": Number(p.projected_gap_kg ?? p.net_gap_kg ?? 0),
+    };
+  });
 
   const [currentTimestamp, setCurrentTimestamp] = useState<number | null>(null);
 
@@ -258,26 +262,34 @@ export default function DashboardPage() {
               </div>
 
               <div className="mt-3 space-y-2.5">
-                {gapData?.periods.slice(0, 5).map((p, idx) => (
-                  <div
-                    key={idx}
-                    className="p-2.5 rounded-lg border border-gray-100 bg-gray-50/60 flex items-center justify-between text-xs"
-                  >
-                    <div>
-                      <p className="font-semibold text-gray-900">{p.period_label}</p>
-                      <p className="text-[11px] text-gray-500">
-                        Supply: {Number(p.projected_available_supply_kg).toLocaleString("id-ID")} kg | Demand: {Number(p.forecast_demand_kg).toLocaleString("id-ID")} kg
-                      </p>
+                {(gapData?.periods || []).slice(0, 5).map((p: any, idx) => {
+                  const label = p.period_label || p.period || `Minggu ${idx + 1}`;
+                  const supplyKg = Number(p.projected_available_supply_kg || p.projected_supply_kg || 0);
+                  const demandKg = Number(p.forecast_demand_kg || p.remaining_forecast_demand_kg || 0);
+                  const gapKg = Number(p.projected_gap_kg ?? p.net_gap_kg ?? 0);
+                  const status = p.gap_status || p.status || (gapKg > 500 ? "surplus" : gapKg < -500 ? "deficit" : "balanced");
+
+                  return (
+                    <div
+                      key={idx}
+                      className="p-2.5 rounded-lg border border-gray-100 bg-gray-50/60 flex items-center justify-between text-xs"
+                    >
+                      <div>
+                        <p className="font-semibold text-gray-900">{label}</p>
+                        <p className="text-[11px] text-gray-500">
+                          Supply: {supplyKg.toLocaleString("id-ID")} kg | Demand: {demandKg.toLocaleString("id-ID")} kg
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <StatusBadge status={status} type="gap" />
+                        <p className={`text-[11px] font-bold mt-1 ${gapKg >= 0 ? "text-green-700" : "text-rose-700"}`}>
+                          {gapKg > 0 ? "+" : ""}
+                          {gapKg.toLocaleString("id-ID")} kg
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <StatusBadge status={p.gap_status} type="gap" />
-                      <p className={`text-[11px] font-bold mt-1 ${Number(p.projected_gap_kg) >= 0 ? "text-green-700" : "text-rose-700"}`}>
-                        {Number(p.projected_gap_kg) > 0 ? "+" : ""}
-                        {Number(p.projected_gap_kg).toLocaleString("id-ID")} kg
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

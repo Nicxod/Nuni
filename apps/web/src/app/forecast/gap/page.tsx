@@ -48,12 +48,16 @@ export default function GapAnalysisPage() {
     loadData();
   }, []);
 
-  const chartData = gapData?.periods.map((p) => ({
-    name: p.period_label.replace("Minggu ", "W"),
-    "Pasokan Tersedia (kg)": Number(p.projected_available_supply_kg),
-    "Prediksi Permintaan (kg)": Number(p.forecast_demand_kg),
-    "Net Gap (kg)": Number(p.projected_gap_kg),
-  })) || [];
+  const chartData = (gapData?.periods || []).map((p: any, idx: number) => {
+    const rawLabel = p.period_label || p.period || p.period_start || `W${idx + 1}`;
+    const name = typeof rawLabel === "string" ? rawLabel.replace("Minggu ", "W") : `W${idx + 1}`;
+    return {
+      name,
+      "Pasokan Tersedia (kg)": Number(p.projected_available_supply_kg || p.projected_supply_kg || 0),
+      "Prediksi Permintaan (kg)": Number(p.forecast_demand_kg || p.remaining_forecast_demand_kg || 0),
+      "Net Gap (kg)": Number(p.projected_gap_kg ?? p.net_gap_kg ?? 0),
+    };
+  });
 
   return (
     <LayoutWrapper>
@@ -164,24 +168,36 @@ export default function GapAnalysisPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {gapData?.periods.map((p, idx) => (
-                  <tr key={idx} className="hover:bg-gray-50/50">
-                    <td className="py-2.5 px-3 font-semibold text-gray-900">{p.period_label}</td>
-                    <td className="py-2.5 px-3 text-right text-gray-700">{Number(p.usable_stock_kg).toLocaleString("id-ID")}</td>
-                    <td className="py-2.5 px-3 text-right text-green-700">+{Number(p.forecast_harvest_kg).toLocaleString("id-ID")}</td>
-                    <td className="py-2.5 px-3 text-right text-blue-700">-{Number(p.confirmed_orders_kg).toLocaleString("id-ID")}</td>
-                    <td className="py-2.5 px-3 text-right font-bold text-green-800">{Number(p.projected_available_supply_kg).toLocaleString("id-ID")}</td>
-                    <td className="py-2.5 px-3 text-right font-semibold text-amber-800">{Number(p.forecast_demand_kg).toLocaleString("id-ID")}</td>
-                    <td className={`py-2.5 px-3 text-right font-bold ${Number(p.projected_gap_kg) >= 0 ? "text-green-700" : "text-rose-700"}`}>
-                      {Number(p.projected_gap_kg) > 0 ? "+" : ""}
-                      {Number(p.projected_gap_kg).toLocaleString("id-ID")} kg
-                    </td>
-                    <td className="py-2.5 px-3 text-center">
-                      <StatusBadge status={p.gap_status} type="gap" />
-                    </td>
-                    <td className="py-2.5 px-3 text-gray-600 max-w-xs leading-relaxed">{p.notes}</td>
-                  </tr>
-                ))}
+                {(gapData?.periods || []).map((p: any, idx: number) => {
+                  const label = p.period_label || p.period || `Minggu ${idx + 1}`;
+                  const usableStock = Number(p.usable_stock_kg || 0);
+                  const harvestKg = Number(p.forecast_harvest_kg || p.projected_supply_kg || 0);
+                  const ordersKg = Number(p.confirmed_orders_kg || 0);
+                  const supplyKg = Number(p.projected_available_supply_kg || p.projected_supply_kg || 0);
+                  const demandKg = Number(p.forecast_demand_kg || p.remaining_forecast_demand_kg || 0);
+                  const gapKg = Number(p.projected_gap_kg ?? p.net_gap_kg ?? 0);
+                  const status = p.gap_status || p.status || (gapKg > 500 ? "surplus" : gapKg < -500 ? "deficit" : "balanced");
+                  const notes = p.notes || p.explanation || "-";
+
+                  return (
+                    <tr key={idx} className="hover:bg-gray-50/50">
+                      <td className="py-2.5 px-3 font-semibold text-gray-900">{label}</td>
+                      <td className="py-2.5 px-3 text-right text-gray-700">{usableStock.toLocaleString("id-ID")}</td>
+                      <td className="py-2.5 px-3 text-right text-green-700">+{harvestKg.toLocaleString("id-ID")}</td>
+                      <td className="py-2.5 px-3 text-right text-blue-700">-{ordersKg.toLocaleString("id-ID")}</td>
+                      <td className="py-2.5 px-3 text-right font-bold text-green-800">{supplyKg.toLocaleString("id-ID")}</td>
+                      <td className="py-2.5 px-3 text-right font-semibold text-amber-800">{demandKg.toLocaleString("id-ID")}</td>
+                      <td className={`py-2.5 px-3 text-right font-bold ${gapKg >= 0 ? "text-green-700" : "text-rose-700"}`}>
+                        {gapKg > 0 ? "+" : ""}
+                        {gapKg.toLocaleString("id-ID")} kg
+                      </td>
+                      <td className="py-2.5 px-3 text-center">
+                        <StatusBadge status={status} type="gap" />
+                      </td>
+                      <td className="py-2.5 px-3 text-gray-600 max-w-xs leading-relaxed">{notes}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
