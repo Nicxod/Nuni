@@ -37,8 +37,12 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col shrink-0 min-h-[calc(100vh-80px)]">
       <div className="p-4 border-b border-gray-100">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-gray-500">
-          Modul Rantai Pasok Trawas
+        <div className="text-[13px] font-bold text-gray-900 flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
+          ResiLokal
+        </div>
+        <span className="text-[10px] font-semibold tracking-wider text-gray-400 block mt-0.5">
+          Rantai Pasok Singkong Trawas
         </span>
       </div>
 

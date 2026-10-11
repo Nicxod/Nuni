@@ -51,7 +51,7 @@ export default function LoginPage() {
           </div>
         </div>
         <h2 className="mt-3 text-center text-xl font-bold tracking-tight text-gray-900">
-          Masuk ke CassavaFlow AI
+          Masuk ke ResiLokal
         </h2>
         <p className="mt-1 text-center text-xs text-gray-500">
           Platform Cerdas Peramalan Pasokan & Kebutuhan Singkong Trawas

@@ -58,7 +58,7 @@ export function MobileBottomNav() {
                   <Sprout className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900">Menu CassavaFlow</h3>
+                  <h3 className="text-sm font-bold text-gray-900">Menu ResiLokal</h3>
                   <p className="text-[10px] text-gray-500">Pilih modul rantai pasok singkong</p>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export function MobileBottomNav() {
             </div>
 
             <div className="p-3 border-t border-gray-100 bg-gray-50 text-center text-[10px] text-gray-500">
-              CassavaFlow AI • Wilayah Percontohan Trawas, Mojokerto
+              ResiLokal • Rantai Pasok Singkong Trawas, Mojokerto
             </div>
           </div>
         </div>

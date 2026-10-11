@@ -51,13 +51,13 @@ export function Header({ currentRole = "farmer", onRoleChange, onRefresh }: Head
           </div>
           <div>
             <h1 className="text-sm sm:text-base font-bold text-gray-900 tracking-tight flex items-center gap-1.5">
-              CassavaFlow AI
+              ResiLokal
               <span className="text-[10px] sm:text-xs font-normal text-green-700 bg-green-50 px-1.5 py-0.5 rounded-md border border-green-200">
                 Trawas
               </span>
             </h1>
             <p className="text-[10px] sm:text-[11px] text-gray-500 hidden sm:block">
-              Peramalan Pasokan, Permintaan & Perencanaan Cerdas Stok Singkong
+              Peramalan Pasokan, Permintaan & Perencanaan Cerdas Rantai Pasok Singkong
             </p>
           </div>
         </div>

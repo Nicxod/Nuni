@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
-const apiBackendUrl =
-  process.env.API_BACKEND_URL ||
-  process.env.NEXT_PUBLIC_API_BACKEND_URL ||
-  "http://localhost:8001";
+const apiBackendUrl = process.env.API_BACKEND_URL;
 
 const nextConfig: NextConfig = {
   turbopack: {
@@ -15,12 +12,15 @@ const nextConfig: NextConfig = {
     },
   },
   async rewrites() {
-    return [
-      {
-        source: "/api/v1/:path*",
-        destination: `${apiBackendUrl}/api/v1/:path*`,
-      },
-    ];
+    if (apiBackendUrl && !apiBackendUrl.includes("localhost")) {
+      return [
+        {
+          source: "/api/v1/:path*",
+          destination: `${apiBackendUrl}/api/v1/:path*`,
+        },
+      ];
+    }
+    return [];
   },
 };
 
