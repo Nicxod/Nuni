@@ -13,6 +13,26 @@ import {
   mockProcessingOptions,
 } from "@/lib/mockData";
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ketlojcjikrchzlmrufz.supabase.co";
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtldGxvamNqaWtyY2h6bG1ydWZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MzA1NzYsImV4cCI6MjEwNzMwNjU3Nn0.WYYvncMKMB2U8DoiI367uts1jA9ZGWEQ5W8dBHZu3Gk";
+
+const supabaseHeaders = {
+  "Content-Type": "application/json",
+  apikey: SUPABASE_KEY,
+  Authorization: `Bearer ${SUPABASE_KEY}`,
+};
+
+const tableMap: Record<string, string> = {
+  farms: "farms",
+  "crop-plans": "crop_plans",
+  "inventory-batches": "inventory_batches",
+  buyers: "buyers",
+  "buyer-needs": "buyer_needs",
+  transactions: "transactions",
+  "processing-options": "processing_options",
+  "stock-recommendations": "stock_recommendations",
+};
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string[] }> }
@@ -20,35 +40,35 @@ export async function GET(
   const { slug } = await params;
   const path = slug.join("/");
 
-  // Optional: Try proxying to external backend if API_BACKEND_URL is set
-  const externalBackend = process.env.API_BACKEND_URL;
-  if (externalBackend && !externalBackend.includes("localhost")) {
+  // Check Supabase Table Mapping
+  const sbTable = tableMap[path];
+  if (sbTable) {
     try {
-      const search = request.nextUrl.search;
-      const targetUrl = `${externalBackend}/api/v1/${path}${search}`;
-      const res = await fetch(targetUrl, {
-        headers: { "Content-Type": "application/json" },
-        cache: "no-store",
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${sbTable}?select=*`, {
+        headers: supabaseHeaders,
+        next: { revalidate: 0 },
       });
       if (res.ok) {
         const data = await res.json();
-        return NextResponse.json(data);
+        if (Array.isArray(data) && data.length > 0) {
+          return NextResponse.json(data);
+        }
       }
-    } catch {
-      // Fallback to internal simulation data
+    } catch (err) {
+      console.warn("Supabase fetch fallback:", err);
     }
   }
 
-  // Self-contained simulation data router
-  if (path === "farms") {
-    return NextResponse.json(mockFarms);
-  }
-  if (path === "crop-plans") {
-    return NextResponse.json(mockCropPlans);
-  }
-  if (path === "inventory-batches") {
-    return NextResponse.json(mockInventoryBatches);
-  }
+  // Self-contained simulation and analytics endpoints
+  if (path === "farms") return NextResponse.json(mockFarms);
+  if (path === "crop-plans") return NextResponse.json(mockCropPlans);
+  if (path === "inventory-batches") return NextResponse.json(mockInventoryBatches);
+  if (path === "buyers") return NextResponse.json(mockBuyers);
+  if (path === "buyer-needs") return NextResponse.json(mockBuyerNeeds);
+  if (path === "transactions") return NextResponse.json(mockTransactions);
+  if (path === "processing-options") return NextResponse.json(mockProcessingOptions);
+  if (path === "stock-recommendations") return NextResponse.json(mockStockActions);
+
   if (path === "forecasts/supply/latest") {
     return NextResponse.json(mockSupplyForecast);
   }
@@ -57,21 +77,6 @@ export async function GET(
   }
   if (path === "forecasts/gap") {
     return NextResponse.json(mockGapAnalysis);
-  }
-  if (path === "stock-recommendations") {
-    return NextResponse.json(mockStockActions);
-  }
-  if (path === "buyers") {
-    return NextResponse.json(mockBuyers);
-  }
-  if (path === "buyer-needs") {
-    return NextResponse.json(mockBuyerNeeds);
-  }
-  if (path === "transactions") {
-    return NextResponse.json(mockTransactions);
-  }
-  if (path === "processing-options") {
-    return NextResponse.json(mockProcessingOptions);
   }
   if (path === "reports/summary") {
     return NextResponse.json({
@@ -102,26 +107,6 @@ export async function POST(
   const { slug } = await params;
   const path = slug.join("/");
 
-  // Try proxying to external backend if API_BACKEND_URL is set
-  const externalBackend = process.env.API_BACKEND_URL;
-  if (externalBackend && !externalBackend.includes("localhost")) {
-    try {
-      const body = await request.json().catch(() => ({}));
-      const targetUrl = `${externalBackend}/api/v1/${path}`;
-      const res = await fetch(targetUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return NextResponse.json(data);
-      }
-    } catch {
-      // Fallback
-    }
-  }
-
   let body: any = {};
   try {
     body = await request.json();
@@ -129,6 +114,31 @@ export async function POST(
     // empty body
   }
 
+  // Write directly to Supabase if table matches
+  const sbTable = tableMap[path];
+  if (sbTable) {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${sbTable}`, {
+        method: "POST",
+        headers: {
+          ...supabaseHeaders,
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify({
+          ...body,
+          id: body.id || (typeof crypto !== "undefined" ? crypto.randomUUID() : "item-" + Date.now()),
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return NextResponse.json(data[0] || data);
+      }
+    } catch (err) {
+      console.warn("Supabase insert fallback:", err);
+    }
+  }
+
+  // Fallback handlers
   if (path === "auth/login") {
     return NextResponse.json({
       access_token: "mock-jwt-token-resilokal",
@@ -149,20 +159,12 @@ export async function POST(
     return NextResponse.json(mockStockActions);
   }
   if (path === "crop-plans") {
-    const newPlan = {
-      id: "cp-" + Date.now(),
-      ...body,
-      data_origin: "simulation",
-    };
+    const newPlan = { id: "cp-" + Date.now(), ...body, data_origin: "simulation" };
     mockCropPlans.unshift(newPlan);
     return NextResponse.json(newPlan);
   }
   if (path === "inventory-batches") {
-    const newBatch = {
-      id: "bt-" + Date.now(),
-      ...body,
-      data_origin: "simulation",
-    };
+    const newBatch = { id: "bt-" + Date.now(), ...body, data_origin: "simulation" };
     mockInventoryBatches.unshift(newBatch);
     return NextResponse.json(newBatch);
   }
