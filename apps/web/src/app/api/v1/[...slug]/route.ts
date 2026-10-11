@@ -169,19 +169,52 @@ export async function POST(
     return NextResponse.json(newBatch);
   }
   if (path === "processing-calculator/estimate") {
-    const rawQty = Number(body.raw_material_qty_kg || 1000);
-    const yieldRatio = Number(body.yield_ratio || 0.4);
-    const sellingPrice = Number(body.expected_selling_price || 15000);
-    const outputUnits = rawQty * yieldRatio;
-    const grossRev = outputUnits * sellingPrice;
-    const totalCost = rawQty * 2500;
+    const rawQty = Number(body.input_raw_cassava_kg || body.raw_material_qty_kg || 1000);
+    const rawPrice = Number(body.raw_cassava_price_per_kg || 2500);
+    const optionId = body.processing_option_id;
+    const opt = mockProcessingOptions.find((o) => o.id === optionId) || mockProcessingOptions[0];
+
+    const yieldRatio = Number(opt.yield_ratio || 0.4);
+    const outputUnits = Math.round(rawQty * yieldRatio);
+    const outputUnit = opt.output_unit || "pack";
+    const laborCostTotal = Math.round(rawQty * Number(opt.labor_cost || 600));
+    const energyCostTotal = Math.round(rawQty * Number(opt.energy_cost || 400));
+    const packagingCostTotal = Math.round(rawQty * Number(opt.packaging_cost || 500));
+    const distributionCostTotal = Math.round(rawQty * Number(opt.distribution_cost || 250));
+    const otherCostTotal = Math.round(rawQty * Number(opt.other_cost || 150));
+    const totalProcessingCost = laborCostTotal + energyCostTotal + packagingCostTotal + distributionCostTotal + otherCostTotal;
+
+    const rawMaterialCost = Math.round(rawQty * rawPrice);
+    const totalCombinedCost = rawMaterialCost + totalProcessingCost;
+    const sellingPricePerUnit = Number(opt.expected_selling_price_per_unit || 15000);
+    const grossRevenue = Math.round(outputUnits * sellingPricePerUnit);
+    const rawSaleRevenue = Math.round(rawQty * rawPrice);
+    const estimatedMargin = grossRevenue - totalCombinedCost;
+    const marginPct = grossRevenue > 0 ? Number(((estimatedMargin / grossRevenue) * 100).toFixed(1)) : 0;
+    const unitCost = outputUnits > 0 ? Math.round(totalCombinedCost / outputUnits) : 0;
+    const netValueAdded = grossRevenue - rawSaleRevenue - totalProcessingCost;
+
     return NextResponse.json({
-      raw_material_qty_kg: rawQty,
-      estimated_output_units: outputUnits,
-      gross_revenue: grossRev,
-      total_processing_cost: totalCost,
-      estimated_contribution_margin: grossRev - totalCost,
-      margin_percentage: ((grossRev - totalCost) / (grossRev || 1)) * 100,
+      input_raw_cassava_kg: rawQty,
+      raw_material_cost: rawMaterialCost,
+      yield_ratio: yieldRatio,
+      output_finished_quantity: outputUnits,
+      output_unit: outputUnit,
+      total_processing_cost: totalProcessingCost,
+      labor_cost_total: laborCostTotal,
+      energy_cost_total: energyCostTotal,
+      packaging_cost_total: packagingCostTotal,
+      distribution_cost_total: distributionCostTotal,
+      other_cost_total: otherCostTotal,
+      total_combined_cost: totalCombinedCost,
+      unit_cost_per_finished_unit: unitCost,
+      expected_selling_price_per_unit: sellingPricePerUnit,
+      gross_revenue: grossRevenue,
+      estimated_contribution_margin: estimatedMargin,
+      margin_percentage: marginPct,
+      raw_sale_revenue_comparison: rawSaleRevenue,
+      net_value_added_vs_raw: netValueAdded,
+      disclaimer: "Simulasi margin mengacu pada baseline rendemen dan struktur biaya olahan lokal Trawas.",
     });
   }
   if (path === "system/seed") {

@@ -180,16 +180,16 @@ export default function TransactionsPage() {
                     <td className="py-2.5 px-3 font-semibold text-gray-900">{t.buyer_name || "Pembeli Trawas"}</td>
                     <td className="py-2.5 px-3 text-gray-600">{t.transaction_date}</td>
                     <td className="py-2.5 px-3 text-right font-bold text-gray-900">
-                      {Number(t.quantity_ordered_kg).toLocaleString("id-ID")} kg
+                      {Number(t.quantity_ordered_kg || 0).toLocaleString("id-ID")} kg
                     </td>
                     <td className="py-2.5 px-3 text-right text-green-700">
-                      {Number(t.quantity_fulfilled_kg).toLocaleString("id-ID")} kg
+                      {Number(t.quantity_fulfilled_kg || 0).toLocaleString("id-ID")} kg
                     </td>
                     <td className="py-2.5 px-3 text-right text-gray-700">
-                      Rp {Number(t.unit_price).toLocaleString("id-ID")}
+                      Rp {Number(t.unit_price || 0).toLocaleString("id-ID")}
                     </td>
                     <td className="py-2.5 px-3 text-right font-bold text-green-800">
-                      Rp {Number(t.total_amount).toLocaleString("id-ID")}
+                      Rp {Number(t.total_amount || 0).toLocaleString("id-ID")}
                     </td>
                     <td className="py-2.5 px-3 text-center">
                       <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${

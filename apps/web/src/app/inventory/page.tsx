@@ -232,13 +232,13 @@ export default function InventoryPage() {
                         </span>
                       </td>
                       <td className="py-2.5 px-3 text-right text-gray-700">
-                        {Number(b.initial_quantity_kg).toLocaleString("id-ID")}
+                        {Number(b.initial_quantity_kg || 0).toLocaleString("id-ID")}
                       </td>
                       <td className="py-2.5 px-3 text-right font-bold text-green-800">
-                        {Number(b.available_quantity_kg).toLocaleString("id-ID")}
+                        {Number(b.available_quantity_kg || 0).toLocaleString("id-ID")}
                       </td>
                       <td className="py-2.5 px-3 text-right text-blue-700">
-                        {Number(b.reserved_quantity_kg).toLocaleString("id-ID")}
+                        {Number(b.reserved_quantity_kg || 0).toLocaleString("id-ID")}
                       </td>
                       <td className="py-2.5 px-3 font-semibold text-gray-800">
                         {b.handling_deadline || "Segera olah"}

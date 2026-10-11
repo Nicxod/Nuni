@@ -346,7 +346,7 @@ export default function DashboardPage() {
 
                     <div className="text-right">
                       <span className="text-sm font-bold text-gray-900">
-                        {Number(b.available_quantity_kg).toLocaleString("id-ID")} kg
+                        {Number(b.available_quantity_kg || 0).toLocaleString("id-ID")} kg
                       </span>
                       <p className="text-[10px] text-amber-800 font-semibold mt-0.5">
                         Batas SOP: {b.handling_deadline || "Segera Olah"}
@@ -390,7 +390,7 @@ export default function DashboardPage() {
                             {rec.recommendation_type === "allocate" ? "Alokasi Pesanan" : "Olah / Awetkan"}
                           </span>
                           <span className="font-semibold text-gray-700">
-                            Volume: {Number(rec.quantity_kg).toLocaleString("id-ID")} kg
+                            Volume: {Number(rec.quantity_kg || 0).toLocaleString("id-ID")} kg
                           </span>
                         </div>
                         <p className="text-xs text-gray-600 mt-1 leading-relaxed">

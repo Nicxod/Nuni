@@ -100,7 +100,7 @@ export default function ProcessingCalculatorPage() {
                 >
                   {options.map((opt) => (
                     <option key={opt.id} value={opt.id}>
-                      {opt.name} (Rendemen {(opt.yield_ratio * 100).toFixed(0)}%)
+                      {opt.name} (Rendemen {(Number(opt.yield_ratio || 0) * 100).toFixed(0)}%)
                     </option>
                   ))}
                 </select>
@@ -139,23 +139,23 @@ export default function ProcessingCalculatorPage() {
                   <span className="font-bold text-gray-800 block">Struktur Biaya Pengolahan Terkonfigurasi:</span>
                   <div className="flex justify-between">
                     <span>Tenaga Kerja:</span>
-                    <strong>Rp {selectedOpt.labor_cost.toLocaleString("id-ID")}/kg</strong>
+                    <strong>Rp {Number(selectedOpt.labor_cost || 0).toLocaleString("id-ID")}/kg</strong>
                   </div>
                   <div className="flex justify-between">
                     <span>Energi & Penggorengan/Pengeringan:</span>
-                    <strong>Rp {selectedOpt.energy_cost.toLocaleString("id-ID")}/kg</strong>
+                    <strong>Rp {Number(selectedOpt.energy_cost || 0).toLocaleString("id-ID")}/kg</strong>
                   </div>
                   <div className="flex justify-between">
                     <span>Kemasan & Label:</span>
-                    <strong>Rp {selectedOpt.packaging_cost.toLocaleString("id-ID")}/kg</strong>
+                    <strong>Rp {Number(selectedOpt.packaging_cost || 0).toLocaleString("id-ID")}/kg</strong>
                   </div>
                   <div className="flex justify-between">
                     <span>Transportasi / Distribusi:</span>
-                    <strong>Rp {selectedOpt.distribution_cost.toLocaleString("id-ID")}/kg</strong>
+                    <strong>Rp {Number(selectedOpt.distribution_cost || 0).toLocaleString("id-ID")}/kg</strong>
                   </div>
                   <div className="flex justify-between">
                     <span>Harga Jual Target Produk Jadi:</span>
-                    <strong className="text-green-800">Rp {selectedOpt.expected_selling_price_per_unit.toLocaleString("id-ID")}/{selectedOpt.output_unit}</strong>
+                    <strong className="text-green-800">Rp {Number(selectedOpt.expected_selling_price_per_unit || 0).toLocaleString("id-ID")}/{selectedOpt.output_unit || "unit"}</strong>
                   </div>
                   <div className="pt-1 border-t border-gray-200 text-[10px] text-gray-500">
                     SOP Terkait: {selectedOpt.food_safety_sop_reference || "SOP Standar Dinas"}
@@ -184,10 +184,10 @@ export default function ProcessingCalculatorPage() {
                     Opsi A: Dijual Sebagai Singkong Mentah
                   </span>
                   <p className="text-2xl font-bold text-gray-800">
-                    Rp {result.raw_sale_revenue_comparison.toLocaleString("id-ID")}
+                    Rp {Number(result.raw_sale_revenue_comparison ?? (Number(result.input_raw_cassava_kg || inputKg) * Number(rawPrice))).toLocaleString("id-ID")}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {result.input_raw_cassava_kg.toLocaleString("id-ID")} kg @ Rp {Number(rawPrice).toLocaleString("id-ID")}/kg
+                    {Number(result.input_raw_cassava_kg || inputKg).toLocaleString("id-ID")} kg @ Rp {Number(rawPrice).toLocaleString("id-ID")}/kg
                   </p>
                   <div className="pt-2 border-t border-gray-100 text-[11px] text-gray-600">
                     Risiko: Singkong segar wajib terkirim dalam 2-3 hari untuk menghindari penurunan mutu.
@@ -203,15 +203,15 @@ export default function ProcessingCalculatorPage() {
                     Opsi B: Diolah Menjadi Produk Jadi
                   </span>
                   <p className="text-2xl font-bold text-green-800">
-                    Rp {result.gross_revenue.toLocaleString("id-ID")}
+                    Rp {Number(result.gross_revenue || 0).toLocaleString("id-ID")}
                   </p>
                   <p className="text-xs text-green-700 font-semibold">
-                    Hasil Jadi: {result.output_finished_quantity.toLocaleString("id-ID")} {result.output_unit} (Rendemen {(result.yield_ratio * 100).toFixed(0)}%)
+                    Hasil Jadi: {Number(result.output_finished_quantity ?? (result as any).estimated_output_units ?? 0).toLocaleString("id-ID")} {result.output_unit || "pack"} (Rendemen {(Number(result.yield_ratio || 0.4) * 100).toFixed(0)}%)
                   </p>
                   <div className="pt-2 border-t border-gray-100 text-[11px] text-gray-700 flex justify-between font-semibold">
                     <span>Estimasi Margin Kontribusi:</span>
                     <span className="text-green-800 font-bold">
-                      Rp {result.estimated_contribution_margin.toLocaleString("id-ID")} ({result.margin_percentage}%)
+                      Rp {Number(result.estimated_contribution_margin || 0).toLocaleString("id-ID")} ({Number(result.margin_percentage || 0).toFixed(1)}%)
                     </span>
                   </div>
                 </div>
@@ -226,26 +226,26 @@ export default function ProcessingCalculatorPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                   <div className="p-2.5 bg-gray-50 rounded-lg">
                     <span className="text-gray-500 block text-[11px]">Bahan Baku:</span>
-                    <strong className="text-gray-900 font-mono">Rp {result.raw_material_cost.toLocaleString("id-ID")}</strong>
+                    <strong className="text-gray-900 font-mono">Rp {Number(result.raw_material_cost ?? (Number(result.input_raw_cassava_kg || inputKg) * Number(rawPrice))).toLocaleString("id-ID")}</strong>
                   </div>
                   <div className="p-2.5 bg-gray-50 rounded-lg">
                     <span className="text-gray-500 block text-[11px]">Total Biaya Olah:</span>
-                    <strong className="text-gray-900 font-mono">Rp {result.total_processing_cost.toLocaleString("id-ID")}</strong>
+                    <strong className="text-gray-900 font-mono">Rp {Number(result.total_processing_cost || 0).toLocaleString("id-ID")}</strong>
                   </div>
                   <div className="p-2.5 bg-gray-50 rounded-lg">
                     <span className="text-gray-500 block text-[11px]">Total Biaya Gabungan:</span>
-                    <strong className="text-gray-900 font-mono">Rp {result.total_combined_cost.toLocaleString("id-ID")}</strong>
+                    <strong className="text-gray-900 font-mono">Rp {Number(result.total_combined_cost ?? ((result.raw_material_cost || 0) + (result.total_processing_cost || 0))).toLocaleString("id-ID")}</strong>
                   </div>
                   <div className="p-2.5 bg-green-50 rounded-lg">
                     <span className="text-green-700 block text-[11px]">HPP per Unit Jadi:</span>
-                    <strong className="text-green-900 font-mono">Rp {result.unit_cost_per_finished_unit.toLocaleString("id-ID")}/{result.output_unit}</strong>
+                    <strong className="text-green-900 font-mono">Rp {Number(result.unit_cost_per_finished_unit || 0).toLocaleString("id-ID")}/{result.output_unit || "unit"}</strong>
                   </div>
                 </div>
 
                 <div className="p-3 bg-amber-50/70 rounded-lg border border-amber-200 text-xs text-amber-900 flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                   <p className="leading-relaxed text-[11px]">
-                    <strong>Catatan Transparansi Akuntansi (PRD Bagian 10.2):</strong> {result.disclaimer} Hasil kalkulasi ini adalah <em>contribution margin</em> sebelum pajak, penyusutan aset, dan overhead tetap yang tidak diinput.
+                    <strong>Catatan Transparansi Akuntansi (PRD Bagian 10.2):</strong> {result.disclaimer || "Hasil kalkulasi ini adalah contribution margin sebelum pajak dan overhead tetap."}
                   </p>
                 </div>
               </div>
