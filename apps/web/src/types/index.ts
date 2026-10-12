@@ -342,3 +342,31 @@ export interface MarketingAutomationRule {
   total_triggered_count: number;
   last_triggered_at?: string;
 }
+
+export interface SeasonalTransitionPrediction {
+  current_season: "rainy" | "dry";
+  current_season_label: string;
+  season_confidence_pct: number;
+  rainfall_monthly_mm: number;
+  soil_moisture_pct: number;
+  peak_harvest_status: "active" | "approaching" | "ended";
+  peak_harvest_window: string;
+  next_season: "rainy" | "dry";
+  next_season_label: string;
+  transition_predicted_date: string;
+  weeks_until_transition: number;
+  climate_model_source: string;
+  early_warning_title: string;
+  early_warning_message: string;
+  recommended_action: string;
+  weekly_climate_timeline: {
+    week: string;
+    date_range: string;
+    season: "rainy" | "dry";
+    rainfall_mm: number;
+    harvest_feasibility: "sangat_tinggi" | "tinggi" | "sedang" | "rendah";
+    soil_hardness: "gembur" | "sedang" | "keras_kering";
+    action_cue: string;
+  }[];
+}
+

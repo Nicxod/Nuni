@@ -32,19 +32,26 @@ import {
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
 import { FeatureGuide } from "@/components/FeatureGuide";
+import { ClimateSeasonRadar } from "@/components/ClimateSeasonRadar";
 import { api } from "@/lib/api";
-import { GapAnalysisResponse } from "@/types";
+import { mockSeasonalClimatePrediction } from "@/lib/mockData";
+import { GapAnalysisResponse, SeasonalTransitionPrediction } from "@/types";
 
 export default function GapAnalysisPage() {
   const [gapData, setGapData] = useState<GapAnalysisResponse | null>(null);
+  const [climateData, setClimateData] = useState<SeasonalTransitionPrediction>(mockSeasonalClimatePrediction);
   const [loading, setLoading] = useState(true);
   const [seasonFilter, setSeasonFilter] = useState<"all" | "rainy" | "dry">("all");
 
   const loadData = async () => {
     try {
       setLoading(true);
-      const res = await api.getGapAnalysis();
-      setGapData(res);
+      const [res, cRes] = await Promise.allSettled([
+        api.getGapAnalysis(),
+        api.getClimatePrediction(),
+      ]);
+      if (res.status === "fulfilled") setGapData(res.value);
+      if (cRes.status === "fulfilled") setClimateData(cRes.value);
     } catch (err) {
       console.error(err);
     } finally {
@@ -114,6 +121,9 @@ export default function GapAnalysisPage() {
           </Link>
         </div>
 
+        {/* AI Agro-Climate & Seasonal Transition Radar */}
+        <ClimateSeasonRadar data={climateData} onRefresh={loadData} />
+
         {/* Feature Guide */}
         <FeatureGuide
           title="Panduan Skema Peramalan Musiman & Cadangan Penyangga Umbi"
@@ -126,6 +136,10 @@ export default function GapAnalysisPage() {
             {
               title: "Mengapa Disimpan sebagai Umbi (Bukan Tepung)?",
               desc: "UMKM keripik membutuhkan bentuk fisik umbi untuk digoreng. Jika semua dijadikan tepung, pabrik keripik akan kehabisan bahan baku di musim kemarau. Umbi diawetkan dengan teknik irisan blansir beku (tahan 6 bulan).",
+            },
+            {
+              title: "Radar Agroklimat BMKG & AI Deteksi Musim",
+              desc: "Memantau kapan musim hujan & kemarau tiba, curah hujan, serta hitung mundur kapan puncak panen berakhir agar UMKM sempat mengawetkan stok sebelum tanah mengeras.",
             },
             {
               title: "Net Gap Alami vs Penyeimbangan Buffer",

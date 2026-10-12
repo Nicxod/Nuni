@@ -141,6 +141,7 @@ export const api = {
   getLatestForecast: (type: "supply" | "demand") =>
     apiFetch<any>(`/forecasts/${type}/latest`),
   getGapAnalysis: () => apiFetch<any>("/forecasts/gap"),
+  getClimatePrediction: () => apiFetch<any>("/forecasts/climate"),
 
   // Stock Recommendations
   getRecommendations: (status?: string) => {

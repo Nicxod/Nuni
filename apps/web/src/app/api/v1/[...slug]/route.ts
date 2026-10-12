@@ -14,6 +14,7 @@ import {
   mockDeliveries,
   mockMarketingCampaigns,
   mockMarketingAutomationRules,
+  mockSeasonalClimatePrediction,
 } from "@/lib/mockData";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ketlojcjikrchzlmrufz.supabase.co";
@@ -302,6 +303,9 @@ export async function GET(
   }
   if (path === "forecasts/gap") {
     return NextResponse.json(mockGapAnalysis);
+  }
+  if (path === "forecasts/climate" || path === "climate/seasonal-forecast") {
+    return NextResponse.json(mockSeasonalClimatePrediction);
   }
   if (path === "reports/summary") {
     return NextResponse.json({

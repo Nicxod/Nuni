@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   TrendingUp,
   RefreshCw,
@@ -8,6 +9,7 @@ import {
   Calendar,
   Layers,
   CheckCircle,
+  Radio,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -91,6 +93,13 @@ export default function SupplyForecastPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/forecast/gap"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-900 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 rounded-lg transition-colors cursor-pointer"
+            >
+              <Radio className="w-3.5 h-3.5 text-emerald-700 animate-pulse" />
+              Radar Musim BMKG
+            </Link>
             <select
               value={granularity}
               onChange={(e) => setGranularity(e.target.value)}
