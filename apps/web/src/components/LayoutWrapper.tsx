@@ -26,7 +26,6 @@ const PATH_ROLE_HINTS: Record<string, { name: string; roles: string[]; recommend
   "/delivery-claims": { name: "Pelacakan & Klaim Remuk", roles: ["Pembeli / UMKM", "Admin", "Pengawas"], recommendedRole: "buyer" },
   "/marketing-automation": { name: "Otomasi Pemasaran", roles: ["Pembeli / UMKM", "Petani / Poktan", "Admin"], recommendedRole: "admin" },
   "/reports": { name: "Laporan & Ringkasan", roles: ["Admin / Koordinator", "Pengawas"], recommendedRole: "admin" },
-  "/demo": { name: "🎬 Demo Presentasi 2 Menit", roles: ["Semua Peran"], recommendedRole: "all" },
 };
 
 export function LayoutWrapper({ children }: LayoutWrapperProps) {

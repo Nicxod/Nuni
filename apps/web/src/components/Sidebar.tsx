@@ -18,7 +18,6 @@ import {
   Compass,
   Truck,
   Megaphone,
-  Video,
 } from "lucide-react";
 import { useRole } from "@/context/RoleContext";
 
@@ -36,7 +35,6 @@ const navigationItems = [
   { name: "Otomasi Pemasaran", href: "/marketing-automation", icon: Megaphone },
   { name: "Kalkulator Pengolahan", href: "/processing-calculator", icon: Calculator },
   { name: "Laporan & Ringkasan", href: "/reports", icon: FileText },
-  { name: "🎬 Demo Presentasi 2 Menit", href: "/demo", icon: Video },
 ];
 
 export function Sidebar() {
