@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { SummaryReport } from "@/types";
 
@@ -62,6 +63,41 @@ export default function ReportsPage() {
             Unduh Laporan Transaksi CSV
           </a>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Laporan Eksekutif & Ringkasan Audit"
+          badge="Executive & Audit Intelligence"
+          howToRead={[
+            {
+              title: "Metrik KPI Rantai Pasok",
+              desc: "Rangkuman total petak lahan aktif, stok singkong di pos pengumpul (kg), total pesanan terkonfirmasi, dan jumlah mitra industri terdaftar.",
+            },
+            {
+              title: "Kepatuhan SOP & Lapangan",
+              desc: "Memastikan seluruh modul mematuhi standar operasional Trawas: label simulasi transparan, batas 48 jam PPD, dan kontrol manusia atas AI.",
+            },
+            {
+              title: "Transparansi Tata Kelola",
+              desc: "Dokumen konsolidasi resmi untuk pembuktian akuntabilitas kepada pengurus koperasi, dinas pertanian daerah, dan mitra perbankan.",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Unduh Rekapitulasi CSV",
+              desc: "Klik tombol hijau 'Unduh Laporan Transaksi CSV' di kanan atas untuk mendapatkan berkas transaksi pembukuan mentah.",
+            },
+            {
+              title: "Cetak Dokumen Laporan",
+              desc: "Gunakan pintasan cetak browser (Ctrl + P) untuk menyimpan ringkasan eksekutif ke dalam format PDF siap edar.",
+            },
+            {
+              title: "Verifikasi Pembaruan Data",
+              desc: "Setiap penambahan panen atau transaksi baru di modul lain otomatis merefleksikan nilai terkini ke ringkasan eksekutif ini.",
+            },
+          ]}
+          roleTarget="Modul ini digunakan oleh Pengurus Koperasi, Koordinator Lapangan, dan Pengawas Kebijakan untuk monitoring makro ekosistem singkong Trawas."
+        />
 
         {/* Executive Summary Metrics Grid */}
         <div className="bg-white p-5 rounded-xl border border-gray-200 text-xs shadow-xs space-y-4">

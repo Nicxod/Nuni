@@ -29,6 +29,7 @@ import {
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { MetricCard } from "@/components/MetricCard";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import {
   GapAnalysisResponse,
@@ -158,6 +159,41 @@ export default function DashboardPage() {
             </Link>
           </div>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Navigasi Dashboard Ekosistem ResiLokal"
+          badge="Pusat Komando Rantai Pasok"
+          howToRead={[
+            {
+              title: "5 Kartu KPI Utama",
+              desc: "Memantau Stok Gudang Tersedia (kg), Prediksi Panen AI 6 Minggu ke Depan, Pesanan Terikat Kontrak, Proyeksi Permintaan Pasar, dan Status Keseimbangan Gap.",
+            },
+            {
+              title: "Grafik Neraca Multi-Periode",
+              desc: "Memadukan stok awal + estimasi panen (sisi pasokan) dengan pesanan + proyeksi kebutuhan pembeli (sisi serapan) per minggu.",
+            },
+            {
+              title: "Peringatan Batch Kritis 48 Jam",
+              desc: "Menyoroti batch singkong di gudang yang mendekati atau melewati batas kesegaran SOP untuk segera dieksekusi alokasinya.",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Pintasan Analisis Gap",
+              desc: "Klik tombol 'Detail Gap Analysis' di kanan atas untuk melihat rincian surplus/defisit dan formula perhitungannya.",
+            },
+            {
+              title: "Eksekusi Tindakan Cerdas Stok",
+              desc: "Klik 'Smart Stock Planner' untuk meninjau dan menyetujui rekomendasi alokasi pasokan singkong ke UMKM/pasar.",
+            },
+            {
+              title: "Beralih Peran Pengguna",
+              desc: "Gunakan menu dropdown peran di bar navigasi atas untuk melihat perspektif operasional Petani, UMKM, atau Admin.",
+            },
+          ]}
+          roleTarget="Pusat kendali operasional bersama bagi Koordinator Rantai Pasok, Petani, dan UMKM Trawas untuk memantau kelancaran aliran singkong dan stabilitas harga."
+        />
 
         {/* Top KPI Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">

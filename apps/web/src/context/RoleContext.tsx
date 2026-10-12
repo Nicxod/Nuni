@@ -18,9 +18,9 @@ export const ROLE_CONFIGS: Record<UserRole, RoleConfig> = {
   all: {
     id: "all",
     label: "✨ Mode Eksplorasi (Semua Fitur)",
-    shortLabel: "Eksplorasi Juri",
+    shortLabel: "Akses Lengkap",
     badge: "Semua Fitur Aktif",
-    description: "Seluruh 11 modul terbuka tanpa batasan untuk evaluasi, demo & juri lomba.",
+    description: "Seluruh 11 modul terbuka tanpa batasan untuk koordinator ekosistem rantai pasok.",
     color: "bg-purple-100 text-purple-800 border-purple-200",
     allowedPaths: [
       "/dashboard",

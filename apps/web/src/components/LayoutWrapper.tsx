@@ -78,11 +78,11 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
 
               <div className="bg-gray-50 rounded-xl p-4 text-xs text-gray-600 text-left border border-gray-200 space-y-2">
                 <div className="font-semibold text-gray-800 flex items-center gap-1.5">
-                  <span>💡 Evaluasi & Demo Juri Lomba:</span>
+                  <span>💡 Hak Akses Peran Pengguna:</span>
                 </div>
                 <p>
-                  Sistem ResiLokal membatasi fitur berdasarkan peran operasional di lapangan (Petani, UMKM, Admin).
-                  Untuk melihat atau mendemonstrasikan modul ini, Anda dapat beralih peran atau menggunakan <strong>Mode Eksplorasi</strong>.
+                  Sistem ResiLokal mengelompokkan modul kerja berdasarkan peran operasional di lapangan (Petani, Pembeli/UMKM, Admin).
+                  Untuk menjelajahi modul ini, Anda dapat beralih peran di bagian atas atau mengaktifkan <strong>Mode Akses Lengkap</strong>.
                 </p>
               </div>
 
@@ -92,7 +92,7 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
                   className="w-full sm:w-auto px-5 py-2.5 bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Compass className="w-4 h-4" />
-                  ✨ Buka Semua (Mode Eksplorasi)
+                  ✨ Buka Semua (Akses Lengkap)
                 </button>
 
                 {hint && (

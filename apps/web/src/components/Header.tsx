@@ -68,7 +68,7 @@ export function Header({ onRoleChange, onRefresh }: HeaderProps) {
             title="Muat ulang dataset simulasi Trawas lengkap"
           >
             <RefreshCw className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${seeding ? "animate-spin text-green-700" : ""}`} />
-            <span>{seeding ? "Memuat..." : "Reset Demo"}</span>
+            <span>{seeding ? "Memuat..." : "Reset Data Simulasi"}</span>
           </button>
 
           {/* Role Switcher */}

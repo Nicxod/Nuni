@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { CropPlan, Farm } from "@/types";
 
@@ -230,20 +231,40 @@ export default function HarvestPlansPage() {
           </button>
         </div>
 
-        {/* Petunjuk Praktis Petani Callout */}
-        <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-3.5 text-xs text-emerald-950 flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <div className="flex items-start gap-2.5">
-            <Sparkles className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
-            <div>
-              <span className="font-bold text-emerald-900">
-                Cara Petani Menginput Jadwal Mingguan / Bulanan:
-              </span>
-              <p className="text-emerald-800 text-[11px] mt-0.5">
-                Petani tidak perlu menghafal tanggal pasti di kalender. Cukup pilih <strong>Bulan & Minggu keberapa</strong> rencana panen akan dilakukan, atau masukkan <strong>Bulan Tanam + Umur Singkong (9–10 bulan)</strong>. Sistem otomatis mengagregasikan data ini ke dalam peramalan suplai mingguan AI.
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Rencana Lahan & Kalender Panen"
+          badge="Modul Petani & Poktan"
+          howToRead={[
+            {
+              title: "Tabel Rencana & Kalender Panen",
+              desc: "Menampilkan komitmen panen per poktan, luas petak (ha), varietas singkong (Gajah, Ketan, Manggu), serta estimasi tonase hasil panen.",
+            },
+            {
+              title: "Waktu Panen (Minggu & Bulan)",
+              desc: "Memetakan jadwal cabut singkong ke dalam slot mingguan (misal 'November 2026 Mgg 2') yang menjadi basis agregasi pasokan AI.",
+            },
+            {
+              title: "Kartu Profil Kelompok Tani",
+              desc: "Rangkuman total luas lahan garapan, jumlah petak aktif, dan kontak koordinator kelompok tani di wilayah Trawas.",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Klik '+ Tambah Jadwal Panen'",
+              desc: "Buka formulir pendaftaran rencana panen melalui tombol hijau di kanan atas.",
+            },
+            {
+              title: "Pilih Metode Estimasi",
+              desc: "Pilih 'Bulan & Minggu Panen' langsung, atau gunakan 'Bulan Tanam + Umur Singkong' (9–10 bulan) agar tanggal panen terhitung otomatis.",
+            },
+            {
+              title: "Simpan Rencana",
+              desc: "Masukkan luas lahan dan perkiraan tonase (kg). Data tersimpan langsung mengalir ke grafik prediksi pasokan AI.",
+            },
+          ]}
+          roleTarget="Modul ini diisi oleh Petani & Ketua Poktan Trawas untuk mendaftarkan jadwal panen, serta dipantau oleh Koordinator Rantai Pasok untuk memastikan kepastian suplai singkong lokal."
+        />
 
         {/* Farms Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">

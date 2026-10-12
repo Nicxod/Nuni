@@ -22,6 +22,7 @@ import {
 } from "recharts";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { ForecastRun, CropPlan } from "@/types";
 
@@ -126,7 +127,7 @@ export default function SupplyForecastPage() {
                 </span>
               </div>
               <p className="text-emerald-800 mt-1">
-                {forecast?.notes || "Model menggabungkan estimasi kalender tanam petani Trawas dengan evaluasi backtest temporal."}
+                {forecast?.notes || "Model menggabungkan estimasi kalender tanam petani Trawas dengan validasi backtest temporal."}
               </p>
             </div>
           </div>
@@ -183,44 +184,40 @@ export default function SupplyForecastPage() {
           </div>
         </div>
 
-        {/* Cara Kerja Agregasi Model & Penjelasan Kurva */}
-        <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4 text-xs space-y-2.5 shadow-xs">
-          <div className="flex items-center gap-2 font-bold text-emerald-950">
-            <Info className="w-4 h-4 text-emerald-700 shrink-0" />
-            <span>Panduan Membaca Kurva & Logika Agregasi Panen AI ResiLokal:</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-gray-700">
-            <div className="bg-white p-3 rounded-lg border border-emerald-200 space-y-1">
-              <span className="font-bold text-gray-900 block flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
-                1. Mengapa Grafiknya Bergelombang?
-              </span>
-              <p className="text-[11px] text-gray-600 leading-relaxed">
-                Singkong dipanen per petak lahan sekaligus (musiman), bukan dikeluarkan sedikit demi sedikit tiap hari. <strong>Puncak kurva</strong> adalah minggu panen raya petak, sedangkan <strong>lembah kurva</strong> adalah masa tunggu pematangan umbi di tanah.
-              </p>
-            </div>
-
-            <div className="bg-white p-3 rounded-lg border border-emerald-200 space-y-1">
-              <span className="font-bold text-gray-900 block flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
-                2. Mengapa Hanya Minggu Tertentu Naik?
-              </span>
-              <p className="text-[11px] text-gray-600 leading-relaxed">
-                Ketika petani menambah rencana panen baru (misal panen 11 November), AI secara presisi menempatkannya di <strong>Minggu ke-5 (W5)</strong> dan menjumlahkannya dengan petak lain di minggu yang sama (misal 16.500 kg + 25.000 kg = <strong>41.500 kg</strong>).
-              </p>
-            </div>
-
-            <div className="bg-white p-3 rounded-lg border border-emerald-200 space-y-1">
-              <span className="font-bold text-gray-900 block flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
-                3. Mengapa Tidak Dirata-ratakan?
-              </span>
-              <p className="text-[11px] text-gray-600 leading-relaxed">
-                Singkong rentan pembusukan (SOP kritis 48 jam pascapanen). Dengan mengetahui minggu mana yang membludak, Koperasi dan UMKM dapat menyiagakan alih olahan mocaf/keripik sebelum singkong rusak.
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Grafik Peramalan Pasokan Panen AI"
+          badge="Machine Learning Supply"
+          howToRead={[
+            {
+              title: "Garis Hijau (Prediksi Panen)",
+              desc: "Menunjukkan agregasi volume singkong siap panen pada minggu tersebut berdasarkan luas lahan, varietas, dan jadwal tanam.",
+            },
+            {
+              title: "Pita Hijau Muda (Confidence Band)",
+              desc: "Rentang estimasi ±15% terhadap variasi cuaca lereng Gunung Welirang dan laju perkembangan umbi di tanah.",
+            },
+            {
+              title: "Kurva Bergelombang",
+              desc: "Puncak kurva adalah minggu panen raya petak, sedangkan lembah adalah jeda masa tanam. AI tidak merata-ratakannya agar surplus terdeteksi presisi.",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Daftarkan Jadwal Panen Baru",
+              desc: "Buka menu 'Rencana Panen' lalu tambah petak. AI otomatis menempatkan panen ke minggu yang bersangkutan (misal W5).",
+            },
+            {
+              title: "Klik 'Jalankan Forecast Ulang'",
+              desc: "Tekan tombol di kanan atas untuk menghitung ulang agregasi proyeksi pasokan terkini.",
+            },
+            {
+              title: "Cek Neraca Keseimbangan",
+              desc: "Bandingkan kurva ini di menu 'Analisis Keseimbangan Gap' untuk mendeteksi apakah terjadi surplus atau defisit pasokan.",
+            },
+          ]}
+          roleTarget="Modul ini dipantau oleh Koordinator Rantai Pasok dan Ketua Poktan untuk menjadwalkan tenaga kerja petik serta armada pengangkut singkong ke pos pengumpul."
+        />
 
         {/* Supporting Crop Plans Table */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs">

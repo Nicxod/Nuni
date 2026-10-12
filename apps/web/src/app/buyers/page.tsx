@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { Buyer, BuyerMatchItem } from "@/types";
 
@@ -123,6 +124,41 @@ export default function BuyersPage() {
             + Daftarkan Pembeli / UMKM Baru
           </button>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Direktori Pembeli & Pencocokan Cerdas (Buyer Matching)"
+          badge="Market Matching Engine"
+          howToRead={[
+            {
+              title: "Skor Kecocokan Pasokan (%)",
+              desc: "Algoritma menghitung kecocokan pembeli berdasarkan 5 parameter: Volume (30%), Waktu (25%), Mutu Grade (20%), Jarak Desa (15%), dan Riwayat (10%).",
+            },
+            {
+              title: "Kapasitas Serap & Grade Mutu",
+              desc: "Menunjukkan kuota penyerapan mingguan (kg/minggu) serta syarat minimum grade (Grade A super, Grade B olahan keripik/mocaf, Grade C pakan).",
+            },
+            {
+              title: "Kategori Mitra Pengolah",
+              desc: "Klasifikasi industri: UMKM Keripik Barokah, Pabrik Tepung Mocaf Duyung, Pedagang Pasar Segar, dan Peternak Pakan.",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Klik '+ Daftarkan Pembeli / UMKM Baru'",
+              desc: "Buka formulir pendaftaran mitra melalui tombol hijau di kanan atas saat ada industri atau pembeli baru bergabung.",
+            },
+            {
+              title: "Isi Profil Usaha & Kuota Serap",
+              desc: "Masukkan nama entitas usaha, kategori produk olahan, nomor WhatsApp, kapasitas serap (kg/minggu), dan lokasi desa di Trawas.",
+            },
+            {
+              title: "Otomasi Integrasi Pasokan",
+              desc: "Pembeli yang terdaftar otomatis masuk ke dalam algoritma peramalan permintaan AI dan penyaluran stok saat panen raya tiba.",
+            },
+          ]}
+          roleTarget="Modul ini dikelola oleh Koordinator Rantai Pasok Trawas untuk memperluas jaringan pasar pembeli dan melindungi petani dari monopoli tengkulak."
+        />
 
         {/* Explainable Matching Engine Callout (PRD Section 10.1) */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 text-xs space-y-3 shadow-xs">

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { StockRecommendation, ProcessingOption } from "@/types";
 
@@ -56,7 +57,7 @@ export default function StockActionsPage() {
       setGenerating(true);
       const res = await api.generateRecommendations();
       setRecommendations(res);
-      alert(`Berhasil membuat ${res.length} rekomendasi stok baru berdasarkan evaluasi gap & umur batch.`);
+      alert(`Berhasil membuat ${res.length} rekomendasi stok baru berdasarkan analisis keseimbangan pasokan & umur batch.`);
     } catch (err: any) {
       alert("Gagal membuat rekomendasi: " + err.message);
     } finally {
@@ -103,7 +104,7 @@ export default function StockActionsPage() {
               <StatusBadge status="SIMULASI" />
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              Rekomendasi alokasi, penjualan segera, dan evaluasi pengolahan/pengawetan sebelum singkong segar rusak.
+              Rekomendasi alokasi pesanan, pengalihan olahan mocaf, dan penjualan segar sebelum batas kritis SOP 48 jam.
             </p>
           </div>
 
@@ -121,7 +122,7 @@ export default function StockActionsPage() {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 transition-colors shadow-xs cursor-pointer disabled:opacity-50"
             >
               <Sparkles className={`w-3.5 h-3.5 ${generating ? "animate-spin" : ""}`} />
-              {generating ? "Menganalisis Stok..." : "Evaluasi Rekomendasi Baru"}
+              {generating ? "Menganalisis Stok..." : "Jalankan Rekomendasi AI"}
             </button>
           </div>
         </div>
@@ -135,6 +136,41 @@ export default function StockActionsPage() {
             </span>
           </div>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Rekomendasi Tindakan Cerdas Stok"
+          badge="Preservation & Action AI"
+          howToRead={[
+            {
+              title: "Tindakan & Kode Batch",
+              desc: "Instruksi perlakuan stok: Alokasi Order (kirim ke pembeli terikat), Pengalihan Olahan (surplus dialihkan ke mocaf), atau Penjualan Segar.",
+            },
+            {
+              title: "Estimasi Nilai & Biaya Logistik",
+              desc: "Perkiraan pendapatan kotor penjualan singkong (Rp 2.400/kg) serta estimasi biaya transportasi dan operasional gudang (Rp 350/kg).",
+            },
+            {
+              title: "Batas Waktu SOP 48 Jam",
+              desc: "Tenggat waktu mutlak untuk menyelesaikan pengiriman fisik singkong sebelum terjadi penurunan mutu fisiologis (PPD).",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Klik 'Jalankan Rekomendasi AI'",
+              desc: "Gunakan tombol hijau di kanan atas untuk menganalisis stok gudang terkini dan memunculkan rekomendasi tindakan baru.",
+            },
+            {
+              title: "Tinjau Detail Rekomendasi",
+              desc: "Periksa volume disarankan (kg), sasaran pembeli/fasilitas, dan alasan urgensi pada setiap kartu rekomendasi.",
+            },
+            {
+              title: "Setujui atau Tolak Tindakan",
+              desc: "Klik 'Setujui & Terapkan Stok' untuk memotong inventori dan menerbitkan instruksi jalan, atau 'Tolak Rekomendasi' jika terkendala armada.",
+            },
+          ]}
+          roleTarget="Modul ini dijalankan oleh Admin / Koordinator Rantai Pasok Trawas. Sistem menerapkan prinsip Human-in-the-Loop: AI memberikan kalkulasi saran, namun keputusan eksekusi mutlak disetujui manual oleh koordinator."
+        />
 
         {/* Recommendations List */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs">
@@ -152,7 +188,7 @@ export default function StockActionsPage() {
           <div className="mt-3 space-y-3">
             {recommendations.length === 0 ? (
               <div className="text-center py-8 text-gray-500 text-xs">
-                Belum ada rekomendasi aktif. Klik tombol "Evaluasi Rekomendasi Baru" di atas.
+                Belum ada rekomendasi aktif. Klik tombol "Jalankan Rekomendasi AI" di atas.
               </div>
             ) : (
               recommendations.map((rec: any) => {

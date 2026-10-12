@@ -25,6 +25,7 @@ import {
 } from "recharts";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { GapAnalysisResponse } from "@/types";
 
@@ -84,6 +85,41 @@ export default function GapAnalysisPage() {
             Buka Rekomendasi Tindakan Stok
           </Link>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Analisis Keseimbangan Pasokan & Permintaan (Gap)"
+          badge="Supply-Demand Balancing"
+          howToRead={[
+            {
+              title: "Batang Hijau vs Batang Cokelat",
+              desc: "Membandingkan proyeksi ketersediaan singkong (Pasokan) dengan total serapan pesanan UMKM & pasar (Permintaan) di minggu yang sama.",
+            },
+            {
+              title: "Garis Biru (Net Gap)",
+              desc: "Garis di atas 0 (+ >500 kg) menandakan SURPLUS (potensi menumpuk); garis di bawah 0 (- >500 kg) menandakan DEFISIT (kurang bahan baku).",
+            },
+            {
+              title: "Tabel Status Keseimbangan",
+              desc: "Memberikan status per minggu: Seimbang, Surplus Berlebih, atau Defisit Pasokan beserta kuantitas selisih (kg).",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Tindakan Saat Surplus (+)",
+              desc: "Segera klik tombol hijau 'Buka Rekomendasi Tindakan Stok' untuk mengalihkan singkong ke pengolahan mocaf/keripik sebelum batas SOP 48 jam.",
+            },
+            {
+              title: "Tindakan Saat Defisit (-)",
+              desc: "Buka menu 'Rencana Panen' untuk berkoordinasi dengan Poktan Trawas guna mempercepat jadwal panen petak siap cabut.",
+            },
+            {
+              title: "Hitung Potensi Nilai Tambah",
+              desc: "Buka menu 'Kalkulator Biaya Olahan' untuk menghitung margin keuntungan jika singkong surplus diproses menjadi tepung mocaf.",
+            },
+          ]}
+          roleTarget="Modul ini digunakan oleh Koordinator Rantai Pasok Trawas dan Pemangku Kepentingan untuk mengantisipasi gejolak harga dan mencegah food loss."
+        />
 
         {/* Calculation Formula Explanation Card (PRD Section 8.2) */}
         <div className="bg-white border border-gray-200 rounded-xl p-4 text-xs space-y-2 shadow-xs">

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { ProcessingOption, ProcessingCalcResponse } from "@/types";
 
@@ -80,6 +81,41 @@ export default function ProcessingCalculatorPage() {
             </p>
           </div>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Kalkulator Nilai Tambah Pengolahan Singkong"
+          badge="HPP & Added Value Simulation"
+          howToRead={[
+            {
+              title: "Rasio Rendemen (%)",
+              desc: "Persentase konversi singkong segar menjadi produk jadi (Tepung Mocaf ~30% rendemen, Keripik Singkong ~35% rendemen).",
+            },
+            {
+              title: "Perbandingan Margin Laba",
+              desc: "Membandingkan keuntungan bersih jika dijual mentah (Rp 2.400/kg) vs diproses olahan (margin laba meningkat 35%–55%).",
+            },
+            {
+              title: "Komponen Biaya HPP",
+              desc: "Rincian biaya modal bahan baku singkong segar + biaya pengolahan operasional (tenaga kerja, energi pengeringan/penggorengan, kemasan).",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Pilih Jenis Produk Olahan",
+              desc: "Pilih opsi olahan: Tepung Mocaf Fermentasi Duyung, Keripik Singkong Barokah, atau Olahan lainnya.",
+            },
+            {
+              title: "Atur Volume Input (kg)",
+              desc: "Ketik jumlah tonase singkong mentah yang ingin diuji (misal 1.000 kg atau 5.000 kg singkong surplus).",
+            },
+            {
+              title: "Klik 'Hitung Simulasi'",
+              desc: "Sistem otomatis menghitung kuantitas produk jadi (kg), estimasi omzet penjualan, dan potensi kenaikan laba bersih.",
+            },
+          ]}
+          roleTarget="Modul ini digunakan oleh Pelaku UMKM Olahan Trawas untuk analisis kelayakan finansial dan Koperasi untuk menyerap singkong saat panen raya berlebih."
+        />
 
         {/* Calculator Form & Comparison Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">

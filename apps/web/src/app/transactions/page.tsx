@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { Transaction, Buyer } from "@/types";
 
@@ -176,6 +177,41 @@ export default function TransactionsPage() {
             </a>
           </div>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Riwayat Transaksi & Pembelian Singkong"
+          badge="Pencatatan & Penjualan"
+          howToRead={[
+            {
+              title: "Tabel Transaksi Penjualan",
+              desc: "Memuat daftar pembeli/UMKM, tanggal transaksi, kuantitas dipesan vs dipenuhi (kg), harga satuan per kg, dan total nilai nominal (Rp).",
+            },
+            {
+              title: "Status Transaksi",
+              desc: "Lencana status: Hijau (Fulfilled / Singkong telah diterima & lunas), Biru (Confirmed / PO aktif siap kirim), Merah (Cancelled / Batal).",
+            },
+            {
+              title: "Pelatihan Model AI",
+              desc: "Setiap transaksi sukses otomatis diumpankan ke model AI Demand Forecasting untuk menyempurnakan prediksi kebutuhan pasar ke depan.",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Klik '+ Catat Transaksi Baru'",
+              desc: "Buka formulir untuk mencatat transaksi penjualan baru dengan memilih mitra pembeli, kuantitas (kg), dan harga yang disepakati.",
+            },
+            {
+              title: "Impor Data via CSV",
+              desc: "Gunakan tombol 'Impor CSV' jika memiliki riwayat transaksi dari aplikasi kasir / pembukuan Excel kelompok tani.",
+            },
+            {
+              title: "Ekspor Rekapitulasi",
+              desc: "Klik tombol 'Ekspor CSV' untuk mengunduh rekapan transaksi sebagai arsip pembukuan dan laporan keuangan kas.",
+            },
+          ]}
+          roleTarget="Modul ini dijalankan oleh Administrasi Penjualan Pos Pengumpul Trawas bersama Pembeli UMKM untuk mencocokkan nota timbang dan penerimaan barang."
+        />
 
         {/* CSV Import Report Banner */}
         {importResult && (

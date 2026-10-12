@@ -23,6 +23,7 @@ import {
 } from "recharts";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { ForecastRun, BuyerNeed, Transaction } from "@/types";
 
@@ -112,6 +113,41 @@ export default function DemandForecastPage() {
             </button>
           </div>
         </div>
+
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Grafik Peramalan Kebutuhan Pasar AI"
+          badge="Market Demand Intelligence"
+          howToRead={[
+            {
+              title: "Batang Oranye (Prediksi Permintaan)",
+              desc: "Proyeksi volume singkong (kg) yang siap diserap per minggu oleh gabungan UMKM olahan keripik, pabrik mocaf, dan pedagang pasar.",
+            },
+            {
+              title: "Garis Putus-Putus (Batas ±12%)",
+              desc: "Rentang fluktuasi permintaan pasar yang dipengaruhi tren hari libur, musim wisata Trawas, dan siklus belanja UMKM.",
+            },
+            {
+              title: "4 Klasifikasi Permintaan",
+              desc: "Sistem membedakan: Actual (transaksi beres), Confirmed (PO aktif), Forecast (proyeksi AI), dan Planned (estimasi pembeli).",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Daftarkan Rencana Kebutuhan",
+              desc: "Buka menu 'Mitra Pembeli' lalu tambah estimasi kebutuhan mingguan atau kontrak pengadaan bahan baku.",
+            },
+            {
+              title: "Klik 'Jalankan Forecast Ulang'",
+              desc: "Tekan tombol di kanan atas untuk memproses ulang proyeksi permintaan berdasarkan transaksi terkini.",
+            },
+            {
+              title: "Analisis Keseimbangan (Gap)",
+              desc: "Buka menu 'Analisis Keseimbangan Gap' untuk mengecek apakah permintaan pasar melebihi atau kurang dari pasokan panen petani.",
+            },
+          ]}
+          roleTarget="Modul ini digunakan oleh Mitra UMKM/Industri untuk menyampaikan kebutuhan singkong, serta Koordinator Pasar untuk menjaga pasokan agar harga tidak anjlok."
+        />
 
         {/* Demand Definitions Explanation (PRD Section 7.4 Mandatory) */}
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-white p-3.5 rounded-xl border border-gray-200 text-xs">

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FeatureGuide } from "@/components/FeatureGuide";
 import { api } from "@/lib/api";
 import { InventoryBatch, Farm } from "@/types";
 
@@ -148,15 +149,40 @@ export default function InventoryPage() {
           </div>
         </div>
 
-        {/* SOP Kesegaran Callout (PRD Section 9.2) */}
-        <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-3.5 text-xs flex items-center justify-between gap-3 text-amber-950">
-          <div className="flex items-center gap-2.5">
-            <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0" />
-            <span>
-              <strong>Parameter SOP Singkong Segar Trawas:</strong> Singkong segar rentan mengalami pencokelatan vaskular (PPD) dalam 2–3 hari setelah dicabut. Batch yang berusia &gt; 2 hari diprioritaskan untuk distribusi cepat atau dialihkan ke fasilitas pengolahan.
-            </span>
-          </div>
-        </div>
+        {/* Feature Guide */}
+        <FeatureGuide
+          title="Panduan Inventaris Batch & Kesegaran Singkong"
+          badge="Gudang & Mutu Singkong"
+          howToRead={[
+            {
+              title: "Kode Batch & Asal Poktan",
+              desc: "Setiap tumpukan singkong memiliki kode unik (BT-TRW-...) untuk melacak ladang asal dan tanggal cabut umbi.",
+            },
+            {
+              title: "Indikator Usia & Batas Kritis 48 Jam",
+              desc: "Warna lencana menunjukkan tingkat risiko PPD: Hijau (<24 jam), Kuning (24–48 jam mendekati batas), Merah (>48 jam / darurat olah).",
+            },
+            {
+              title: "Status Kuantitas & Grade Mutu",
+              desc: "Menampilkan sisa stok tersedia vs teralokasi, serta kualitas fisik Grade A (Pasar Segar), Grade B (Olahan Keripik/Mocaf), atau Grade C (Pakan).",
+            },
+          ]}
+          howToAddOrAct={[
+            {
+              title: "Klik '+ Catat Hasil Panen Aktual'",
+              desc: "Buka formulir pencatatan saat singkong baru tiba dari ladang ke pos pengumpul Trawas.",
+            },
+            {
+              title: "Isi Data & Verifikasi Grade",
+              desc: "Pilih lahan asal, tanggal panen hari ini, kuantitas (kg), dan tentukan grade mutu singkong yang diterima.",
+            },
+            {
+              title: "Tindakan Cerdas Stok",
+              desc: "Jika ada batch mendekati batas waktu 48 jam, klik tombol 'Rekomendasi Tindakan Stok' untuk dialihkan ke UMKM olahan sebelum rusak.",
+            },
+          ]}
+          roleTarget="Modul ini dijalankan oleh Pengelola Gudang / Pos Pengumpul Trawas bersama Koordinator Rantai Pasok untuk memastikan rotasi stok FIFO (First-In, First-Out) berjalan tertib."
+        />
 
         {/* Filter and Search Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-gray-200 text-xs">
