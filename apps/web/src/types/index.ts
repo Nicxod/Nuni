@@ -354,6 +354,25 @@ export interface ClimateSyncLog {
   api_status: "success_200" | "cached";
 }
 
+export interface NextWeekForecast {
+  week_code: string;
+  date_range: string;
+  weather_summary: string;
+  rainfall_forecast_mm: number;
+  rainfall_probability_pct: number;
+  temperature_range: string;
+  humidity_pct: number;
+  soil_condition: string;
+  soil_hardness: "gembur" | "sedang" | "keras_kering";
+  harvest_feasibility: "sangat_optimal" | "optimal" | "waspada" | "sulit";
+  harvest_feasibility_label: string;
+  target_harvest_kg: number;
+  recommended_buffer_save_kg: number;
+  fresh_allocation_kg: number;
+  action_guidance: string;
+  bmkg_confidence_score: number;
+}
+
 export interface SeasonalTransitionPrediction {
   current_season: "rainy" | "dry";
   current_season_label: string;
@@ -374,6 +393,7 @@ export interface SeasonalTransitionPrediction {
   early_warning_title: string;
   early_warning_message: string;
   recommended_action: string;
+  next_week_forecast?: NextWeekForecast;
   sync_history?: ClimateSyncLog[];
   weekly_climate_timeline: {
     week: string;
