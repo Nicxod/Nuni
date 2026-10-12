@@ -44,17 +44,16 @@ export default function LoginPage() {
         <span>Lingkungan Uji Coba Model Trawas (Semua data berstatus SIMULASI).</span>
       </div>
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-green-700 text-white shadow-md">
-            <Sprout className="w-7 h-7" />
-          </div>
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <div className="flex justify-center mb-1">
+          <img
+            src="/logo.png"
+            alt="ResiLokal — Lokal Tangguh, Renyah Sampai Tujuan"
+            className="h-13 w-auto object-contain"
+          />
         </div>
-        <h2 className="mt-3 text-center text-xl font-bold tracking-tight text-gray-900">
-          Masuk ke ResiLokal
-        </h2>
-        <p className="mt-1 text-center text-xs text-gray-500">
-          Platform Cerdas Peramalan Pasokan & Kebutuhan Singkong Trawas
+        <p className="text-center text-[11px] text-gray-500 font-medium max-w-xs mx-auto leading-relaxed">
+          Integrasi Teknologi Pengolahan Bahan Baku dan Solusi Kemasan Lokal Tangguh, Renyah Sampai Tujuan.
         </p>
       </div>
 

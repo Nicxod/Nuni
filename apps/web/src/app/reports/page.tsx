@@ -64,7 +64,19 @@ export default function ReportsPage() {
         </div>
 
         {/* Executive Summary Metrics Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-white p-4 rounded-xl border border-gray-200 text-xs shadow-xs">
+        <div className="bg-white p-5 rounded-xl border border-gray-200 text-xs shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-3 gap-2">
+            <div className="flex items-center gap-3">
+              <img src="/logo.png" alt="ResiLokal" className="h-9 w-auto object-contain shrink-0" />
+              <div>
+                <h3 className="font-bold text-gray-900 text-sm">ResiLokal Trawas — Ringkasan Eksekutif Rantai Pasok</h3>
+                <p className="text-[11px] text-green-700 font-medium">Lokal Tangguh, Renyah Sampai Tujuan</p>
+              </div>
+            </div>
+            <StatusBadge status="SIMULASI" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-3 bg-gray-50 rounded-lg">
             <span className="text-gray-500 block text-[11px]">Total Petak Lahan Aktif:</span>
             <strong className="text-xl font-bold text-gray-900">{summary?.total_crop_plans_active || 4} Petak</strong>
@@ -86,6 +98,7 @@ export default function ReportsPage() {
             <strong className="text-xl font-bold text-amber-800">{summary?.registered_buyers_count || 4} UMKM/Pabrik</strong>
           </div>
         </div>
+      </div>
 
         {/* Validation and Field Readiness Principles (PRD Section 26 & 27) */}
         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-xs space-y-4 text-xs">

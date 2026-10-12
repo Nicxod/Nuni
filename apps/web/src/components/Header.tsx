@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Sprout, RefreshCw, AlertTriangle, UserCheck } from "lucide-react";
+import Link from "next/link";
+import { RefreshCw, AlertTriangle, UserCheck } from "lucide-react";
 import { api } from "@/lib/api";
 import { useRole } from "@/context/RoleContext";
 
@@ -47,22 +48,16 @@ export function Header({ onRoleChange, onRefresh }: HeaderProps) {
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 sm:px-6 py-2.5 gap-2 sm:gap-4">
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-green-700 text-white shadow-xs shrink-0">
-            <Sprout className="w-4 h-4 sm:w-5 sm:h-5" />
-          </div>
-          <div>
-            <h1 className="text-sm sm:text-base font-bold text-gray-900 tracking-tight flex items-center gap-1.5">
-              ResiLokal
-              <span className="text-[10px] sm:text-xs font-normal text-green-700 bg-green-50 px-1.5 py-0.5 rounded-md border border-green-200">
-                Trawas
-              </span>
-            </h1>
-            <p className="text-[10px] sm:text-[11px] text-gray-500 hidden sm:block">
-              Peramalan Pasokan, Permintaan & Perencanaan Cerdas Rantai Pasok Singkong
-            </p>
-          </div>
-        </div>
+        <Link href="/dashboard" className="flex items-center gap-2.5 group cursor-pointer">
+          <img
+            src="/logo.png"
+            alt="ResiLokal — Lokal Tangguh, Renyah Sampai Tujuan"
+            className="h-8 sm:h-10 w-auto object-contain shrink-0"
+          />
+          <span className="text-[10px] sm:text-xs font-semibold text-green-800 bg-green-50 px-2 py-0.5 rounded-md border border-green-200 hidden lg:inline-block">
+            Trawas, Mojokerto
+          </span>
+        </Link>
 
         <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
           {/* Quick Seed Button */}

@@ -43,13 +43,16 @@ export function Sidebar() {
     <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col shrink-0 min-h-[calc(100vh-80px)]">
       {/* Brand & Active Role Banner */}
       <div className="p-4 border-b border-gray-100 space-y-2.5">
-        <div className="flex items-center justify-between">
-          <div className="text-[13px] font-bold text-gray-900 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
-            ResiLokal
-          </div>
-          <span className="text-[10px] font-semibold text-gray-400">Trawas</span>
-        </div>
+        <Link href="/dashboard" className="flex items-center justify-between group cursor-pointer">
+          <img
+            src="/logo.png"
+            alt="ResiLokal"
+            className="h-8.5 w-auto object-contain"
+          />
+          <span className="text-[10px] font-semibold text-green-800 bg-green-50 px-1.5 py-0.5 rounded border border-green-200">
+            Trawas
+          </span>
+        </Link>
 
         {/* Dynamic Role Badge */}
         <div className={`p-2.5 rounded-lg border text-xs ${config.color}`}>

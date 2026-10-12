@@ -55,13 +55,15 @@ export function MobileBottomNav() {
           <div className="bg-white rounded-t-2xl max-h-[85vh] flex flex-col shadow-2xl border-t border-gray-200 animate-in slide-in-from-bottom duration-200">
             {/* Drawer Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-green-700 flex items-center justify-center text-white">
-                  <Sprout className="w-4 h-4" />
-                </div>
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="/logo-icon.png"
+                  alt="ResiLokal"
+                  className="w-7 h-8 object-contain shrink-0"
+                />
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900">Menu ResiLokal</h3>
-                  <p className="text-[10px] text-gray-500">Peran: {config.shortLabel}</p>
+                  <h3 className="text-sm font-bold text-gray-900">ResiLokal Trawas</h3>
+                  <p className="text-[10px] text-green-700 font-medium">Lokal Tangguh, Renyah Sampai Tujuan</p>
                 </div>
               </div>
               <button
@@ -128,7 +130,7 @@ export function MobileBottomNav() {
             </div>
 
             <div className="p-3 border-t border-gray-100 bg-gray-50 text-center text-[10px] text-gray-500">
-              ResiLokal • Rantai Pasok Singkong Trawas, Mojokerto
+              ResiLokal • Lokal Tangguh, Renyah Sampai Tujuan • Trawas, Mojokerto
             </div>
           </div>
         </div>

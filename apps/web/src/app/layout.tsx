@@ -14,9 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ResiLokal — Peramalan Pasokan, Permintaan & Perencanaan Cerdas Singkong Trawas",
+  title: "ResiLokal — Lokal Tangguh, Renyah Sampai Tujuan",
   description:
-    "Platform AI Peramalan Pasokan Panen, Permintaan Pasar, dan Alokasi Cerdas Rantai Pasok Singkong di Trawas, Mojokerto",
+    "Integrasi Teknologi Pengolahan Bahan Baku dan Solusi Kemasan Lokal Tangguh, Renyah Sampai Tujuan — Trawas, Mojokerto",
+  icons: {
+    icon: "/logo-icon.png",
+    apple: "/logo-icon.png",
+  },
 };
 
 export default function RootLayout({
