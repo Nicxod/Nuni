@@ -152,6 +152,7 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
   };
 
   const isPathAllowed = (path: string) => {
+    if (path === "/demo" || path.startsWith("/demo/")) return true;
     if (role === "all") return true;
     const allowed = ROLE_CONFIGS[role]?.allowedPaths || [];
     return allowed.some((p) => path === p || path.startsWith(p + "/"));
