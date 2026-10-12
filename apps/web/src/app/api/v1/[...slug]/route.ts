@@ -33,6 +33,66 @@ const tableMap: Record<string, string> = {
   "stock-recommendations": "stock_recommendations",
 };
 
+async function getDynamicSupplyForecast() {
+  let plans = mockCropPlans;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/crop_plans?select=*`, {
+      headers: supabaseHeaders,
+      next: { revalidate: 0 },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        plans = data;
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  const weeks = [
+    { start: "2026-10-11", end: "2026-10-17" },
+    { start: "2026-10-18", end: "2026-10-24" },
+    { start: "2026-10-25", end: "2026-10-31" },
+    { start: "2026-11-01", end: "2026-11-07" },
+    { start: "2026-11-08", end: "2026-11-14" },
+    { start: "2026-11-15", end: "2026-11-21" },
+    { start: "2026-11-22", end: "2026-11-28" },
+    { start: "2026-11-29", end: "2026-12-05" },
+  ];
+
+  const points = weeks.map((w) => {
+    const matchingPlans = plans.filter((p) => {
+      const date = p.expected_harvest_date;
+      return date && date >= w.start && date <= w.end;
+    });
+
+    const harvestKg = matchingPlans.reduce(
+      (sum, p) => sum + Number(p.expected_yield_kg || 0),
+      0
+    );
+
+    const baseline = 1200;
+    const predicted = harvestKg > 0 ? harvestKg : baseline;
+    const upper = Math.round(predicted * 1.15);
+    const lower = Math.round(predicted * 0.85);
+
+    return {
+      period_start: w.start,
+      period_end: w.end,
+      predicted_quantity_kg: predicted,
+      upper_bound_kg: upper,
+      lower_bound_kg: lower,
+      baseline_quantity_kg: baseline,
+    };
+  });
+
+  return {
+    ...mockSupplyForecast,
+    points,
+  };
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string[] }> }
@@ -228,7 +288,7 @@ export async function GET(
   if (path === "stock-recommendations") return NextResponse.json(mockStockActions);
 
   if (path === "forecasts/supply/latest") {
-    return NextResponse.json(mockSupplyForecast);
+    return NextResponse.json(await getDynamicSupplyForecast());
   }
   if (path === "forecasts/demand/latest") {
     return NextResponse.json(mockDemandForecast);
@@ -459,7 +519,7 @@ export async function POST(
     });
   }
   if (path === "forecasts/supply/run") {
-    return NextResponse.json(mockSupplyForecast);
+    return NextResponse.json(await getDynamicSupplyForecast());
   }
   if (path === "forecasts/demand/run") {
     return NextResponse.json(mockDemandForecast);
