@@ -72,12 +72,12 @@ export default function ProcessingCalculatorPage() {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold text-gray-900 tracking-tight">
-                Kalkulator Biaya Olahan & Nilai Tambah Singkong (P1)
+                Kalkulator Nilai Tambah & Biaya Olahan Singkong
               </h2>
               <StatusBadge status="SIMULASI" />
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              Simulasi deterministik perbandingan margin penjualan singkong mentah versus diversifikasi produk olahan UMKM Trawas.
+              Simulasi perbandingan margin penjualan singkong mentah versus diversifikasi produk olahan UMKM Trawas.
             </p>
           </div>
         </div>
@@ -281,7 +281,7 @@ export default function ProcessingCalculatorPage() {
                 <div className="p-3 bg-amber-50/70 rounded-lg border border-amber-200 text-xs text-amber-900 flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                   <p className="leading-relaxed text-[11px]">
-                    <strong>Catatan Transparansi Akuntansi (PRD Bagian 10.2):</strong> {result.disclaimer || "Hasil kalkulasi ini adalah contribution margin sebelum pajak dan overhead tetap."}
+                    <strong>Catatan Transparansi Finansial:</strong> {result.disclaimer || "Hasil kalkulasi ini adalah margin kontribusi sebelum pajak dan biaya overhead tetap."}
                   </p>
                 </div>
               </div>

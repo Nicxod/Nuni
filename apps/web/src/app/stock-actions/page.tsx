@@ -99,12 +99,12 @@ export default function StockActionsPage() {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold text-gray-900 tracking-tight">
-                Smart Stock & Preservation/Processing Actions
+                Rekomendasi Tindakan Cerdas Stok (Smart Stock Actions)
               </h2>
               <StatusBadge status="SIMULASI" />
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              Rekomendasi alokasi pesanan, pengalihan olahan mocaf, dan penjualan segar sebelum batas kritis SOP 48 jam.
+              Rekomendasi tindakan cerdas AI: Preservasi umbi musim hujan, rilis cadangan umbi musim kemarau, alokasi order UMKM, dan pengamanan stok sebelum batas SOP 48 jam.
             </p>
           </div>
 
@@ -114,7 +114,7 @@ export default function StockActionsPage() {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-green-800 bg-green-50 border border-green-300 rounded-lg hover:bg-green-100 transition-colors cursor-pointer"
             >
               <Calculator className="w-3.5 h-3.5" />
-              Kalkulator Biaya Olahan
+              Kalkulator Untung Olahan
             </Link>
             <button
               onClick={handleGenerate}

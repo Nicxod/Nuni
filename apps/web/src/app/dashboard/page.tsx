@@ -164,14 +164,14 @@ export default function DashboardPage() {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-green-800 bg-green-50 border border-green-300 rounded-lg hover:bg-green-100 transition-colors cursor-pointer"
             >
               <Scale className="w-3.5 h-3.5" />
-              Detail Gap Analysis
+              Keseimbangan Pasokan (Gap)
             </Link>
             <Link
               href="/stock-actions"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 transition-colors shadow-xs cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              Smart Stock Planner
+              Rekomendasi Tindakan Stok
             </Link>
           </div>
         </div>
@@ -196,12 +196,12 @@ export default function DashboardPage() {
           ]}
           howToAddOrAct={[
             {
-              title: "Pintasan Analisis Gap",
-              desc: "Klik tombol 'Detail Gap Analysis' di kanan atas untuk melihat rincian surplus/defisit dan formula perhitungannya.",
+              title: "Pintasan Keseimbangan Pasokan (Gap)",
+              desc: "Klik tombol 'Keseimbangan Pasokan (Gap)' di kanan atas untuk melihat rincian surplus musim hujan dan defisit musim kemarau.",
             },
             {
               title: "Eksekusi Tindakan Cerdas Stok",
-              desc: "Klik 'Smart Stock Planner' untuk meninjau dan menyetujui rekomendasi alokasi pasokan singkong ke UMKM/pasar.",
+              desc: "Klik 'Rekomendasi Tindakan Stok' untuk menyetujui preservasi umbi di cold storage atau rilis cadangan ke pabrik keripik.",
             },
             {
               title: "Beralih Peran Pengguna",

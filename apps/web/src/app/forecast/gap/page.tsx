@@ -96,12 +96,12 @@ export default function GapAnalysisPage() {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold text-gray-900 tracking-tight">
-                Supply–Demand Gap & Seasonal Buffer Balancing
+                Keseimbangan Panen & Kebutuhan Pasar (Supply–Demand Gap)
               </h2>
               <StatusBadge status="SIMULASI" />
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              Peramalan keseimbangan pasokan umbi singkong vs serapan keripik: Preservasi saat panen raya musim hujan & rilis cadangan umbi saat musim kemarau.
+              Penyeimbang Cadangan Umbi Musim Hujan & Kemarau: Preservasi saat surplus panen raya & rilis cadangan saat musim kemarau.
             </p>
           </div>
 
@@ -258,7 +258,7 @@ export default function GapAnalysisPage() {
 
         {/* Combined Chart */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-gray-100 gap-2 mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-gray-100 gap-2 mb-3">
             <div>
               <h3 className="text-sm font-bold text-gray-900">
                 Visualisasi Neraca Pasokan, Permintaan & Penyangga Cadangan Umbi
@@ -268,6 +268,16 @@ export default function GapAnalysisPage() {
               </p>
             </div>
             <span className="text-xs text-gray-400 font-medium">Satuan: Kilogram (kg)</span>
+          </div>
+
+          {/* Layperson chart reading tip */}
+          <div className="mb-3 p-2.5 bg-gray-50 rounded-lg border border-gray-200 text-[11px] text-gray-700 leading-relaxed flex flex-wrap items-center gap-3">
+            <span className="font-bold text-gray-900 flex items-center gap-1">💡 Cara Cepat Membaca:</span>
+            <span className="inline-flex items-center gap-1 text-green-800"><span className="w-2.5 h-2.5 rounded-sm bg-[#15803D] inline-block"></span> Panen Petani</span>
+            <span className="inline-flex items-center gap-1 text-amber-900"><span className="w-2.5 h-2.5 rounded-sm bg-[#B45309] inline-block"></span> Kebutuhan Keripik</span>
+            <span className="inline-flex items-center gap-1 text-blue-800"><span className="w-2.5 h-2.5 rounded-sm bg-[#0284C7] inline-block"></span> Simpan Awetan (Hujan)</span>
+            <span className="inline-flex items-center gap-1 text-amber-800"><span className="w-2.5 h-2.5 rounded-sm bg-[#F59E0B] inline-block"></span> Rilis Cadangan (Kemarau)</span>
+            <span className="inline-flex items-center gap-1 text-rose-700 font-semibold"><span className="w-4 border-b-2 border-dashed border-[#EF4444] inline-block"></span> Selisih Alami (Net Gap)</span>
           </div>
 
           <div className="h-80 w-full">
@@ -299,7 +309,7 @@ export default function GapAnalysisPage() {
                 Rincian Perhitungan Gap & Aliran Cadangan Umbi per Periode
               </h3>
               <p className="text-[11px] text-gray-500">
-                Kalkulasi deterministik stok umbi segar dan umbi diawetkan untuk memastikan pabrik keripik tidak kekurangan bahan baku.
+                Kalkulasi stok umbi segar dan umbi diawetkan untuk memastikan UMKM keripik tidak pernah kehabisan bahan baku.
               </p>
             </div>
           </div>
@@ -309,14 +319,14 @@ export default function GapAnalysisPage() {
               <thead className="bg-gray-50 text-gray-600 font-semibold border-b border-gray-200">
                 <tr>
                   <th className="py-2.5 px-3">Periode & Musim</th>
-                  <th className="py-2.5 px-3 text-right">Stok Awal Segar (kg)</th>
-                  <th className="py-2.5 px-3 text-right">+ Panen Umbi (kg)</th>
-                  <th className="py-2.5 px-3 text-right font-bold text-green-800">= Total Pasokan Segar (kg)</th>
+                  <th className="py-2.5 px-3 text-right">Stok Segar Gudang (kg)</th>
+                  <th className="py-2.5 px-3 text-right">+ Panen Baru (kg)</th>
+                  <th className="py-2.5 px-3 text-right font-bold text-green-800">= Total Tersedia (kg)</th>
                   <th className="py-2.5 px-3 text-right text-amber-900">- Kebutuhan Keripik (kg)</th>
-                  <th className="py-2.5 px-3 text-right font-bold">= Net Gap Alami (kg)</th>
+                  <th className="py-2.5 px-3 text-right font-bold">= Selisih Bersih / Gap (kg)</th>
                   <th className="py-2.5 px-3 text-center">Status Alami</th>
                   <th className="py-2.5 px-3 text-right font-bold text-blue-700">Rekomendasi Cadangan Umbi</th>
-                  <th className="py-2.5 px-3">Instruksi Alokasi Sistem</th>
+                  <th className="py-2.5 px-3">Instruksi Operasional Sistem</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">

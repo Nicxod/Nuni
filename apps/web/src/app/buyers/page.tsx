@@ -160,12 +160,12 @@ export default function BuyersPage() {
           roleTarget="Modul ini dikelola oleh Koordinator Rantai Pasok Trawas untuk memperluas jaringan pasar pembeli dan melindungi petani dari monopoli tengkulak."
         />
 
-        {/* Explainable Matching Engine Callout (PRD Section 10.1) */}
+        {/* Explainable Matching Engine Callout */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 text-xs space-y-3 shadow-xs">
-          <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-gray-100 gap-1">
             <span className="font-bold text-gray-900 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-green-700" />
-              Skor Kecocokan Pasokan (Explainable Buyer Matching - P1)
+              Skor Kecocokan Mitra Pembeli (Rekomendasi Alokasi Otomatis)
             </span>
             <span className="text-[11px] text-gray-500">Bobot: Volume (30%), Waktu (25%), Mutu (20%), Jarak (15%), Riwayat (10%)</span>
           </div>

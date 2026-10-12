@@ -136,7 +136,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-        {/* Validation and Field Readiness Principles (PRD Section 26 & 27) */}
+        {/* Validation and Field Readiness Principles */}
         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-xs space-y-4 text-xs">
           <div className="flex items-center gap-2 border-b border-gray-100 pb-3">
             <ShieldCheck className="w-5 h-5 text-green-700" />
@@ -145,7 +145,7 @@ export default function ReportsPage() {
                 Kepatuhan Prinsip Transparansi & Validasi Lapangan Trawas
               </h3>
               <p className="text-[11px] text-gray-500">
-                Poin verifikasi lapangan sesuai Bab 26 & 27 PRD CassavaFlow AI.
+                Prinsip operasional terpercaya untuk menjamin tata kelola rantai pasok ResiLokal yang akuntabel dan transparan.
               </p>
             </div>
           </div>

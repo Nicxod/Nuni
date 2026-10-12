@@ -23,17 +23,17 @@ import { useRole } from "@/context/RoleContext";
 
 const navigationItems = [
   { name: "Dashboard Utama", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Forecast Pasokan Panen", href: "/forecast/supply", icon: TrendingUp },
-  { name: "Forecast Permintaan Pasar", href: "/forecast/demand", icon: Users },
+  { name: "Prediksi Pasokan Panen", href: "/forecast/supply", icon: TrendingUp },
+  { name: "Prediksi Permintaan Pasar", href: "/forecast/demand", icon: Users },
   { name: "Supply-Demand Gap", href: "/forecast/gap", icon: Scale },
   { name: "Rencana Lahan & Panen", href: "/harvest-plans", icon: Calendar },
-  { name: "Inventaris Batch Stok", href: "/inventory", icon: Boxes },
+  { name: "Inventaris & Cadangan Umbi", href: "/inventory", icon: Boxes },
   { name: "Tindakan Cerdas Stok", href: "/stock-actions", icon: CheckCircle2 },
   { name: "Pelacakan & Klaim Remuk", href: "/delivery-claims", icon: Truck },
   { name: "Transaksi & Riwayat", href: "/transactions", icon: Receipt },
   { name: "Direktori Pembeli", href: "/buyers", icon: Store },
   { name: "Otomasi Pemasaran", href: "/marketing-automation", icon: Megaphone },
-  { name: "Kalkulator Pengolahan", href: "/processing-calculator", icon: Calculator },
+  { name: "Kalkulator Nilai Tambah", href: "/processing-calculator", icon: Calculator },
   { name: "Laporan & Ringkasan", href: "/reports", icon: FileText },
 ];
 
