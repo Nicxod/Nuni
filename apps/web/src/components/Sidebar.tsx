@@ -15,7 +15,9 @@ import {
   Store,
   Calculator,
   FileText,
+  Compass,
 } from "lucide-react";
+import { useRole } from "@/context/RoleContext";
 
 const navigationItems = [
   { name: "Dashboard Utama", href: "/dashboard", icon: LayoutDashboard },
@@ -33,21 +35,50 @@ const navigationItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { role, config, isPathAllowed, setRole } = useRole();
+
+  const visibleItems = navigationItems.filter((item) => isPathAllowed(item.href));
 
   return (
     <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col shrink-0 min-h-[calc(100vh-80px)]">
-      <div className="p-4 border-b border-gray-100">
-        <div className="text-[13px] font-bold text-gray-900 flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
-          ResiLokal
+      {/* Brand & Active Role Banner */}
+      <div className="p-4 border-b border-gray-100 space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div className="text-[13px] font-bold text-gray-900 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
+            ResiLokal
+          </div>
+          <span className="text-[10px] font-semibold text-gray-400">Trawas</span>
         </div>
-        <span className="text-[10px] font-semibold tracking-wider text-gray-400 block mt-0.5">
-          Rantai Pasok Singkong Trawas
-        </span>
+
+        {/* Dynamic Role Badge */}
+        <div className={`p-2.5 rounded-lg border text-xs ${config.color}`}>
+          <div className="flex items-center justify-between font-bold text-[11px]">
+            <span>{config.shortLabel}</span>
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/70 uppercase tracking-wide">
+              {visibleItems.length}/11 Fitur
+            </span>
+          </div>
+          <p className="text-[10px] opacity-90 mt-1 leading-snug">
+            {config.description}
+          </p>
+          {role !== "all" && (
+            <button
+              onClick={() => setRole("all")}
+              className="mt-2 text-[10px] font-bold flex items-center gap-1 underline cursor-pointer hover:opacity-80"
+            >
+              <Compass className="w-3 h-3" />
+              Buka Semua (Mode Eksplorasi)
+            </button>
+          )}
+        </div>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {navigationItems.map((item) => {
+      <nav className="flex-1 px-3 py-3 space-y-1 overflow-y-auto">
+        <div className="px-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-gray-400">
+          Menu Akses Peran:
+        </div>
+        {visibleItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname?.startsWith(item.href));
 
@@ -70,7 +101,7 @@ export function Sidebar() {
 
       <div className="p-3 border-t border-gray-100 bg-gray-50/70 text-[11px] text-gray-500">
         <p className="font-semibold text-gray-700">Trawas, Kab. Mojokerto</p>
-        <p>Pola musiman: Kemarau vs Hujan</p>
+        <p className="text-[10px] text-gray-400">Simulasi Rantai Pasok Berkelanjutan</p>
       </div>
     </aside>
   );

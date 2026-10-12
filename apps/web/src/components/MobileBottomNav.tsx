@@ -18,14 +18,10 @@ import {
   Calculator,
   FileText,
   Sprout,
+  Compass,
+  UserCheck,
 } from "lucide-react";
-
-const mainNavItems = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Jadwal Panen", href: "/harvest-plans", icon: Calendar },
-  { name: "Stok Batch", href: "/inventory", icon: Boxes },
-  { name: "AI Gap", href: "/forecast/gap", icon: Scale },
-];
+import { useRole, UserRole } from "@/context/RoleContext";
 
 const allNavItems = [
   { name: "Dashboard Utama", href: "/dashboard", icon: LayoutDashboard },
@@ -44,6 +40,12 @@ const allNavItems = [
 export function MobileBottomNav() {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { role, config, isPathAllowed, setRole } = useRole();
+
+  const visibleNavItems = allNavItems.filter((item) => isPathAllowed(item.href));
+
+  // Determine bottom bar quick items (max 4 + 'Semua' menu button)
+  const quickItems = visibleNavItems.slice(0, 4);
 
   return (
     <>
@@ -59,7 +61,7 @@ export function MobileBottomNav() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-gray-900">Menu ResiLokal</h3>
-                  <p className="text-[10px] text-gray-500">Pilih modul rantai pasok singkong</p>
+                  <p className="text-[10px] text-gray-500">Peran: {config.shortLabel}</p>
                 </div>
               </div>
               <button
@@ -71,9 +73,40 @@ export function MobileBottomNav() {
               </button>
             </div>
 
+            {/* Mobile Role Switcher Pill */}
+            <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs text-gray-600 font-medium">
+                  <UserCheck className="w-3.5 h-3.5 text-green-700" />
+                  <span>Ganti Peran:</span>
+                </div>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as UserRole)}
+                  className="text-xs font-bold text-green-800 bg-white border border-gray-300 rounded-md px-2 py-1 focus:outline-none"
+                >
+                  <option value="all">✨ Mode Eksplorasi (Semua)</option>
+                  <option value="farmer">🌾 Petani / Poktan</option>
+                  <option value="buyer">🏭 Pembeli / UMKM</option>
+                  <option value="admin">⚖️ Admin / Koordinator</option>
+                  <option value="viewer">🔍 Peneliti / Pengawas</option>
+                </select>
+              </div>
+
+              {role !== "all" && (
+                <button
+                  onClick={() => setRole("all")}
+                  className="w-full text-center py-1.5 px-3 bg-purple-50 text-purple-800 border border-purple-200 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer hover:bg-purple-100"
+                >
+                  <Compass className="w-3.5 h-3.5" />
+                  <span>Buka Semua 11 Modul (Mode Eksplorasi)</span>
+                </button>
+              )}
+            </div>
+
             {/* Drawer Nav Grid */}
             <div className="p-4 overflow-y-auto grid grid-cols-2 gap-2 text-xs">
-              {allNavItems.map((item) => {
+              {visibleNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname?.startsWith(item.href));
                 return (
@@ -106,7 +139,7 @@ export function MobileBottomNav() {
         aria-label="Navigasi Bawah Layar HP"
         className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 px-2 py-1 flex items-center justify-around shadow-lg h-16"
       >
-        {mainNavItems.map((item) => {
+        {quickItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname?.startsWith(item.href));
           return (
@@ -118,7 +151,9 @@ export function MobileBottomNav() {
               }`}
             >
               <Icon className={`w-5 h-5 ${isActive ? "text-green-700" : "text-gray-500"}`} />
-              <span className="text-[10px] mt-0.5 tracking-tight">{item.name}</span>
+              <span className="text-[10px] mt-0.5 tracking-tight truncate max-w-[65px] text-center">
+                {item.name.replace("Forecast ", "").replace(" (AI)", "").replace(" Utama", "")}
+              </span>
             </Link>
           );
         })}
@@ -138,3 +173,4 @@ export function MobileBottomNav() {
     </>
   );
 }
+

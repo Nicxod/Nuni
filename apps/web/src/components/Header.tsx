@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Sprout, RefreshCw, AlertTriangle, UserCheck } from "lucide-react";
 import { api } from "@/lib/api";
+import { useRole } from "@/context/RoleContext";
 
 interface HeaderProps {
   currentRole?: string;
@@ -10,7 +11,8 @@ interface HeaderProps {
   onRefresh?: () => void;
 }
 
-export function Header({ currentRole = "farmer", onRoleChange, onRefresh }: HeaderProps) {
+export function Header({ onRoleChange, onRefresh }: HeaderProps) {
+  const { role, setRole } = useRole();
   const [seeding, setSeeding] = useState(false);
   const [seedMessage, setSeedMessage] = useState<string | null>(null);
 
@@ -75,18 +77,23 @@ export function Header({ currentRole = "farmer", onRoleChange, onRefresh }: Head
           </button>
 
           {/* Role Switcher */}
-          <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 sm:px-3 sm:py-1.5 rounded-md border border-gray-200">
+          <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg border border-gray-200">
             <UserCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-500 shrink-0" />
-            <span className="text-[11px] sm:text-xs text-gray-500">Peran:</span>
+            <span className="text-[11px] sm:text-xs text-gray-500 font-medium hidden sm:inline">Peran:</span>
             <select
-              value={currentRole}
-              onChange={(e) => onRoleChange && onRoleChange(e.target.value)}
-              className="text-[11px] sm:text-xs font-semibold text-green-800 bg-transparent border-none focus:outline-none cursor-pointer"
+              value={role}
+              onChange={(e) => {
+                const newRole = e.target.value as any;
+                setRole(newRole);
+                if (onRoleChange) onRoleChange(newRole);
+              }}
+              className="text-[11px] sm:text-xs font-bold text-green-800 bg-transparent border-none focus:outline-none cursor-pointer"
             >
-              <option value="farmer">Petani</option>
-              <option value="buyer">UMKM</option>
-              <option value="admin">Admin</option>
-              <option value="viewer">Viewer</option>
+              <option value="all">✨ Mode Eksplorasi (Semua Fitur)</option>
+              <option value="farmer">🌾 Petani / Poktan</option>
+              <option value="buyer">🏭 Pembeli / UMKM</option>
+              <option value="admin">⚖️ Admin / Koordinator</option>
+              <option value="viewer">🔍 Peneliti / Pengawas</option>
             </select>
           </div>
         </div>
