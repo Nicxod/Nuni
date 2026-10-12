@@ -57,6 +57,10 @@ export interface InventoryBatch {
   condition_notes: string | null;
   status: "available" | "ordered" | "allocated" | "processing" | "sold" | "spoiled" | "discarded";
   handling_deadline: string | null;
+  batch_category?: "fresh_tuber" | "preserved_tuber" | "finished_chips";
+  preservation_method?: "blanch_frozen" | "cold_storage_paraffin" | "vacuum_sealed" | null;
+  storage_location?: string | null;
+  shelf_life_months?: number | null;
   data_origin: string;
   created_at: string;
 }
@@ -148,6 +152,10 @@ export interface GapPeriodPoint {
   projected_available_supply_kg: number;
   projected_gap_kg: number;
   gap_status: "surplus" | "deficit" | "balanced" | "insufficient_data";
+  season?: "rainy" | "dry";
+  buffer_preservation_kg?: number;
+  buffer_release_kg?: number;
+  post_buffer_gap_kg?: number;
   notes: string;
 }
 
@@ -184,13 +192,15 @@ export interface ProcessingOption {
 
 export interface StockRecommendation {
   id: string;
-  recommendation_type: "sell" | "allocate" | "process" | "preserve" | "find_buyer" | "procure";
+  recommendation_type: "sell" | "allocate" | "process" | "preserve" | "release_buffer" | "find_buyer" | "procure";
   batch_id: string | null;
   batch_code: string | null;
   period_start: string;
   period_end: string;
   quantity_kg: number | null;
   reason: string;
+  season_context?: "rainy_surplus" | "dry_deficit";
+  preservation_method?: string;
   assumptions_json: Record<string, any> | null;
   estimated_cost: number | null;
   estimated_value: number | null;

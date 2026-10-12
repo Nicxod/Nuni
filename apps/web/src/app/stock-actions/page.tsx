@@ -139,20 +139,20 @@ export default function StockActionsPage() {
 
         {/* Feature Guide */}
         <FeatureGuide
-          title="Panduan Rekomendasi Tindakan Cerdas Stok"
-          badge="Preservation & Action AI"
+          title="Panduan Rekomendasi Tindakan Cerdas Stok & Cadangan Penyangga"
+          badge="Preservation & Buffer AI"
           howToRead={[
             {
-              title: "Tindakan & Kode Batch",
-              desc: "Instruksi perlakuan stok: Alokasi Order (kirim ke pembeli terikat), Pengalihan Olahan (surplus dialihkan ke mocaf), atau Penjualan Segar.",
+              title: "Tindakan & Tipe Rekomendasi",
+              desc: "Instruksi perlakuan stok AI: ❄️ Preservasi Umbi Musim Hujan (simpan di cold storage), ☀️ Rilis Cadangan Umbi Kemarau (suplai pabrik keripik), 📦 Alokasi Order, atau 💰 Jual Segar.",
             },
             {
-              title: "Estimasi Nilai & Biaya Logistik",
-              desc: "Perkiraan pendapatan kotor penjualan singkong (Rp 2.400/kg) serta estimasi biaya transportasi dan operasional gudang (Rp 350/kg).",
+              title: "Filosofi Cadangan Umbi (Bukan Tepung)",
+              desc: "Surplus musim hujan diawetkan dalam bentuk umbi (irisan blansir beku tahan 6 bulan), bukan tepung mocaf, agar pabrik keripik tetap memiliki bahan baku umbi saat kemarau tiba.",
             },
             {
-              title: "Batas Waktu SOP 48 Jam",
-              desc: "Tenggat waktu mutlak untuk menyelesaikan pengiriman fisik singkong sebelum terjadi penurunan mutu fisiologis (PPD).",
+              title: "Estimasi Nilai & Batas SOP PPD 48 Jam",
+              desc: "Perkiraan nilai bahan baku terlindungi, biaya operasional preservasi/logistik, dan batas toleransi kesegaran singkong sebelum membusuk.",
             },
           ]}
           howToAddOrAct={[
@@ -162,15 +162,37 @@ export default function StockActionsPage() {
             },
             {
               title: "Tinjau Detail Rekomendasi",
-              desc: "Periksa volume disarankan (kg), sasaran pembeli/fasilitas, dan alasan urgensi pada setiap kartu rekomendasi.",
+              desc: "Periksa volume disarankan (kg), sasaran fasilitas/UMKM penerima, dan metode preservasi pada setiap kartu rekomendasi.",
             },
             {
               title: "Setujui atau Tolak Tindakan",
-              desc: "Klik 'Setujui & Terapkan Stok' untuk memotong inventori dan menerbitkan instruksi jalan, atau 'Tolak Rekomendasi' jika terkendala armada.",
+              desc: "Klik 'Setujui & Terapkan Stok' untuk memotong inventori dan menerbitkan instruksi jalan/simpan, atau 'Tolak Rekomendasi' jika gudang penuh.",
             },
           ]}
           roleTarget="Modul ini dijalankan oleh Admin / Koordinator Rantai Pasok Trawas. Sistem menerapkan prinsip Human-in-the-Loop: AI memberikan kalkulasi saran, namun keputusan eksekusi mutlak disetujui manual oleh koordinator."
         />
+
+        {/* Seasonal Preservation Highlight Card */}
+        <div className="bg-gradient-to-r from-sky-50 via-emerald-50 to-amber-50 border border-emerald-200 rounded-xl p-4 text-xs space-y-2 shadow-xs">
+          <div className="flex items-center gap-2 font-bold text-gray-900 text-sm">
+            <Sparkles className="w-4 h-4 text-green-700" />
+            <span>Skema Cerdas Cadangan Penyangga Umbi Musiman (Seasonal Tuber Buffer):</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 pt-1">
+            <div className="p-2.5 bg-white/80 rounded-lg border border-sky-200">
+              <span className="font-bold text-sky-900 block mb-0.5">🌧️ Musim Hujan (Surplus Panen Umbi):</span>
+              <p className="text-[11px] leading-relaxed text-gray-600">
+                Panen umbi melimpah namun serapan pasar keripik mingguan terbatas. AI merekomendasikan: <strong>Awetkan umbi segar</strong> dengan metode <em>Irisan Blansir Beku (Blanch-Frozen)</em> di Cold Storage Koperasi (tahan 6 bulan) untuk mencegah pembusukan 48 jam (PPD).
+              </p>
+            </div>
+            <div className="p-2.5 bg-white/80 rounded-lg border border-amber-200">
+              <span className="font-bold text-amber-900 block mb-0.5">☀️ Musim Kemarau (Defisit Panen Lokal):</span>
+              <p className="text-[11px] leading-relaxed text-gray-600">
+                Panen lokal anjlok sementara wisatawan memadati Trawas mencari keripik. AI merekomendasikan: <strong>Keluarkan cadangan umbi awetan</strong> dari Cold Storage untuk menyuplai UMKM Keripik Barokah agar pasokan tidak putus dan harga tidak meroket.
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Recommendations List */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs">
@@ -192,7 +214,7 @@ export default function StockActionsPage() {
               </div>
             ) : (
               recommendations.map((rec: any) => {
-                const recType = rec.recommendation_type || (rec.recommended_action?.includes("process") ? "process" : rec.recommended_action?.includes("allocate") ? "allocate" : "sell");
+                const recType = rec.recommendation_type || (rec.recommended_action?.includes("preserve") ? "preserve" : rec.recommended_action?.includes("release") ? "release_buffer" : rec.recommended_action?.includes("process") ? "process" : rec.recommended_action?.includes("allocate") ? "allocate" : "sell");
                 const estValue = Number(rec.estimated_value ?? rec.estimated_revenue ?? (Number(rec.quantity_kg || 0) * 2400));
                 const estCost = Number(rec.estimated_cost ?? (Number(rec.quantity_kg || 0) * 350));
                 const reasonText = rec.reason || rec.urgency_reason || "Rekomendasi optimasi alokasi pasokan singkong.";
@@ -204,17 +226,30 @@ export default function StockActionsPage() {
                     className="p-4 rounded-xl border border-gray-200 bg-white hover:border-green-300 transition-all text-xs space-y-2.5 shadow-2xs"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className={`px-2.5 py-0.5 rounded-full font-bold uppercase text-[11px] ${
+                          recType === "preserve" ? "bg-sky-100 text-sky-900 border border-sky-300" :
+                          recType === "release_buffer" ? "bg-amber-100 text-amber-900 border border-amber-300" :
                           recType === "allocate" ? "bg-blue-100 text-blue-800" :
                           recType === "process" ? "bg-purple-100 text-purple-800" :
                           "bg-green-100 text-green-800"
                         }`}>
-                          Tindakan: {recType === "allocate" ? "Alokasi Order" : recType === "process" ? "Pengolahan Olahan" : "Penjualan Segar"}
+                          Tindakan: {
+                            recType === "preserve" ? "❄️ Preservasi Umbi Musim Hujan" :
+                            recType === "release_buffer" ? "☀️ Rilis Cadangan Umbi Kemarau" :
+                            recType === "allocate" ? "📦 Alokasi Order" :
+                            recType === "process" ? "🏭 Pengolahan Olahan" :
+                            "💰 Penjualan Segar"
+                          }
                         </span>
                         {rec.batch_code && (
                           <span className="font-semibold text-gray-700 bg-gray-100 px-2 py-0.5 rounded">
                             Batch: {rec.batch_code}
+                          </span>
+                        )}
+                        {rec.preservation_method && (
+                          <span className="font-semibold text-sky-800 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 text-[10px]">
+                            {rec.preservation_method}
                           </span>
                         )}
                         <StatusBadge status="SIMULASI" />

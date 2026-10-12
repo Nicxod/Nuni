@@ -438,8 +438,15 @@ export default function DashboardPage() {
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-gray-900 uppercase text-[11px] bg-green-100 text-green-800 px-2 py-0.5 rounded">
-                            {rec.recommendation_type === "allocate" ? "Alokasi Pesanan" : "Olah / Awetkan"}
+                          <span className={`font-bold uppercase text-[10px] px-2 py-0.5 rounded ${
+                            rec.recommendation_type === "preserve" ? "bg-sky-100 text-sky-900 border border-sky-300" :
+                            rec.recommendation_type === "release_buffer" ? "bg-amber-100 text-amber-900 border border-amber-300" :
+                            rec.recommendation_type === "allocate" ? "bg-blue-100 text-blue-800" :
+                            "bg-green-100 text-green-800"
+                          }`}>
+                            {rec.recommendation_type === "preserve" ? "❄️ Awetkan Umbi (Buffer Hujan)" :
+                             rec.recommendation_type === "release_buffer" ? "☀️ Rilis Umbi (Buffer Kemarau)" :
+                             rec.recommendation_type === "allocate" ? "📦 Alokasi Pesanan" : "Olah / Awetkan"}
                           </span>
                           <span className="font-semibold text-gray-700">
                             Volume: {Number(rec.quantity_kg || 0).toLocaleString("id-ID")} kg
