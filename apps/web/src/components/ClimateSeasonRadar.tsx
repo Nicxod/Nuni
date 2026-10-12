@@ -98,7 +98,7 @@ export function ClimateSeasonRadar({ data, onRefresh }: ClimateSeasonRadarProps)
               </span>
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              Prakiraan cuaca mingguan BMKG Pos Trawas & kalkulasi otomatis kalender panen singkong lokal.
+              Prakiraan cuaca mingguan BMKG Pos Trawas & kalkulasi kalender panen singkong lokal Desa Selotapak.
             </p>
           </div>
         </div>
@@ -523,7 +523,7 @@ export function ClimateSeasonRadar({ data, onRefresh }: ClimateSeasonRadarProps)
         <p>
           ℹ️ <strong>Alasan Sinkronisasi Mingguan (7 Hari Sekali):</strong> Mengikuti standar siklus Dasarian BMKG. Memberi petani & Koperasi rentang waktu yang cukup untuk menyiapkan logistik cabut umbi dan ruang cold storage sebelum cuaca berubah drastis.
         </p>
-        <span className="shrink-0 font-medium text-gray-700">Trawas, Kab. Mojokerto (700 mdpl)</span>
+        <span className="shrink-0 font-medium text-gray-700">Desa Selotapak, Kec. Trawas, Mojokerto (700 mdpl)</span>
       </div>
     </div>
   );

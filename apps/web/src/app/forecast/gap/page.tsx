@@ -153,7 +153,7 @@ export default function GapAnalysisPage() {
             },
             {
               title: "Saat Musim Kemarau (Defisit Pasokan)",
-              desc: "Sistem otomatis merekomendasikan 'Rilis Cadangan Umbi Awetan' dari Cold Storage ke UMKM Keripik Barokah agar produksi tidak terhenti dan harga tetap terjangkau.",
+              desc: "Sistem otomatis merekomendasikan 'Rilis Cadangan Umbi Awetan' dari Cold Storage ke IKM Selotapak Permai agar produksi keripik tidak terhenti dan harga tetap terjangkau.",
             },
             {
               title: "Simulasi Berdasarkan Musim",

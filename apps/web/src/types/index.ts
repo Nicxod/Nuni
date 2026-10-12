@@ -298,7 +298,7 @@ export interface DeliveryOrder {
   buyer_id: string;
   buyer_name: string;
   destination_address: string;
-  item_type: "Singkong Segar Grade A" | "Singkong Segar Grade B" | "Keripik Singkong Barokah" | "Tepung Mocaf Duyung";
+  item_type: "Singkong Segar Grade A" | "Singkong Segar Grade B" | "Keripik Singkong Barokah" | "Keripik Singkong Selotapak Permai" | "Tepung Mocaf Duyung";
   quantity_kg: number;
   package_count: number;
   driver_name: string;

@@ -188,7 +188,7 @@ export default function StockActionsPage() {
             <div className="p-2.5 bg-white/80 rounded-lg border border-amber-200">
               <span className="font-bold text-amber-900 block mb-0.5">☀️ Musim Kemarau (Defisit Panen Lokal):</span>
               <p className="text-[11px] leading-relaxed text-gray-600">
-                Panen lokal anjlok sementara wisatawan memadati Trawas mencari keripik. AI merekomendasikan: <strong>Keluarkan cadangan umbi awetan</strong> dari Cold Storage untuk menyuplai UMKM Keripik Barokah agar pasokan tidak putus dan harga tidak meroket.
+                Panen lokal anjlok sementara wisatawan memadati Trawas mencari keripik. AI merekomendasikan: <strong>Keluarkan cadangan umbi awetan</strong> dari Cold Storage untuk menyuplai IKM Selotapak Permai agar pasokan tidak putus dan harga tidak meroket.
               </p>
             </div>
           </div>
