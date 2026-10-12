@@ -183,6 +183,45 @@ export default function SupplyForecastPage() {
           </div>
         </div>
 
+        {/* Cara Kerja Agregasi Model & Penjelasan Kurva */}
+        <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4 text-xs space-y-2.5 shadow-xs">
+          <div className="flex items-center gap-2 font-bold text-emerald-950">
+            <Info className="w-4 h-4 text-emerald-700 shrink-0" />
+            <span>Panduan Membaca Kurva & Logika Agregasi Panen AI ResiLokal:</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-gray-700">
+            <div className="bg-white p-3 rounded-lg border border-emerald-200 space-y-1">
+              <span className="font-bold text-gray-900 block flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
+                1. Mengapa Grafiknya Bergelombang?
+              </span>
+              <p className="text-[11px] text-gray-600 leading-relaxed">
+                Singkong dipanen per petak lahan sekaligus (musiman), bukan dikeluarkan sedikit demi sedikit tiap hari. <strong>Puncak kurva</strong> adalah minggu panen raya petak, sedangkan <strong>lembah kurva</strong> adalah masa tunggu pematangan umbi di tanah.
+              </p>
+            </div>
+
+            <div className="bg-white p-3 rounded-lg border border-emerald-200 space-y-1">
+              <span className="font-bold text-gray-900 block flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
+                2. Mengapa Hanya Minggu Tertentu Naik?
+              </span>
+              <p className="text-[11px] text-gray-600 leading-relaxed">
+                Ketika petani menambah rencana panen baru (misal panen 11 November), AI secara presisi menempatkannya di <strong>Minggu ke-5 (W5)</strong> dan menjumlahkannya dengan petak lain di minggu yang sama (misal 16.500 kg + 25.000 kg = <strong>41.500 kg</strong>).
+              </p>
+            </div>
+
+            <div className="bg-white p-3 rounded-lg border border-emerald-200 space-y-1">
+              <span className="font-bold text-gray-900 block flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-green-600 inline-block"></span>
+                3. Mengapa Tidak Dirata-ratakan?
+              </span>
+              <p className="text-[11px] text-gray-600 leading-relaxed">
+                Singkong rentan pembusukan (SOP kritis 48 jam pascapanen). Dengan mengetahui minggu mana yang membludak, Koperasi dan UMKM dapat menyiagakan alih olahan mocaf/keripik sebelum singkong rusak.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Supporting Crop Plans Table */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs">
           <div className="flex items-center justify-between pb-3 border-b border-gray-100">
