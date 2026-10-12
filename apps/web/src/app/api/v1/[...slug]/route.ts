@@ -477,6 +477,28 @@ export async function POST(
     mockInventoryBatches.unshift(newBatch);
     return NextResponse.json(newBatch);
   }
+  if (path === "buyers") {
+    const newBuyer = {
+      id: "buyer-" + Date.now(),
+      is_verified: true,
+      status: "active",
+      ...body,
+      data_origin: "simulation",
+    };
+    mockBuyers.unshift(newBuyer);
+    return NextResponse.json(newBuyer);
+  }
+  if (path === "transactions") {
+    const newTx = {
+      id: "tx-" + Date.now(),
+      order_date: body.order_date || body.transaction_date || new Date().toISOString().split("T")[0],
+      transaction_date: body.transaction_date || new Date().toISOString().split("T")[0],
+      ...body,
+      data_origin: "simulation",
+    };
+    mockTransactions.unshift(newTx);
+    return NextResponse.json(newTx);
+  }
   if (path === "processing-calculator/estimate") {
     const rawQty = Number(body.input_raw_cassava_kg || body.raw_material_qty_kg || 1000);
     const rawPrice = Number(body.raw_cassava_price_per_kg || 2500);

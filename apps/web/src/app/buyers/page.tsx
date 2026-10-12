@@ -10,6 +10,7 @@ import {
   Users,
   Target,
   ArrowRight,
+  X,
 } from "lucide-react";
 import { LayoutWrapper } from "@/components/LayoutWrapper";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -20,6 +21,16 @@ export default function BuyersPage() {
   const [buyers, setBuyers] = useState<Buyer[]>([]);
   const [matches, setMatches] = useState<BuyerMatchItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Form modal state
+  const [showModal, setShowModal] = useState(false);
+  const [businessName, setBusinessName] = useState("");
+  const [buyerCategory, setBuyerCategory] = useState<string>("umkm_chips");
+  const [villageOrArea, setVillageOrArea] = useState("Desa Trawas");
+  const [contactPhone, setContactPhone] = useState("");
+  const [maxQuantityKg, setMaxQuantityKg] = useState("2500");
+  const [preferredGrade, setPreferredGrade] = useState("A");
+  const [saving, setSaving] = useState(false);
 
   const loadData = async () => {
     try {
@@ -40,6 +51,37 @@ export default function BuyersPage() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const handleSaveBuyer = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!businessName) {
+      alert("Mohon masukkan nama entitas / usaha pembeli.");
+      return;
+    }
+    try {
+      setSaving(true);
+      await api.createBuyer({
+        business_name: businessName,
+        buyer_category: buyerCategory,
+        village_or_area: villageOrArea,
+        contact_phone: contactPhone || "0812-xxxx-xxxx",
+        max_quantity_kg: Number(maxQuantityKg) || 2000,
+        preferred_grade: preferredGrade,
+        lead_time_days: 2,
+        is_verified: true,
+        status: "active",
+        data_origin: "simulation",
+      });
+      setShowModal(false);
+      setBusinessName("");
+      setContactPhone("");
+      await loadData();
+    } catch (err: any) {
+      alert("Gagal menambahkan pembeli: " + err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
@@ -72,6 +114,14 @@ export default function BuyersPage() {
               Profil entitas pembeli terverifikasi di Trawas dan skor kecocokan pasokan singkong (Fitur P1).
             </p>
           </div>
+
+          <button
+            onClick={() => setShowModal(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 transition-colors shadow-xs cursor-pointer self-start sm:self-auto"
+          >
+            <Store className="w-3.5 h-3.5" />
+            + Daftarkan Pembeli / UMKM Baru
+          </button>
         </div>
 
         {/* Explainable Matching Engine Callout (PRD Section 10.1) */}
@@ -177,6 +227,144 @@ export default function BuyersPage() {
             ))}
           </div>
         </div>
+
+        {/* Modal Form Tambah Pembeli */}
+        {showModal && (
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-gray-200 animate-in fade-in zoom-in-95 duration-150">
+              <div className="flex items-center justify-between border-b pb-3 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-green-100 text-green-800 flex items-center justify-center">
+                    <Store className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-sm">
+                      Daftarkan Pembeli / Mitra UMKM Baru
+                    </h3>
+                    <p className="text-[11px] text-gray-500">
+                      Entitas pembeli untuk simulasi pencocokan pasokan singkong Trawas
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveBuyer} className="space-y-3.5 text-xs">
+                <div>
+                  <label className="font-semibold text-gray-700 block mb-1">
+                    Nama Usaha / Usaha Pembeli: *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Contoh: UMKM Keripik Singkong Barokah"
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-1 focus:ring-green-600 focus:outline-none"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="font-semibold text-gray-700 block mb-1">
+                      Kategori Pembeli:
+                    </label>
+                    <select
+                      value={buyerCategory}
+                      onChange={(e) => setBuyerCategory(e.target.value)}
+                      className="w-full px-3 py-2 border rounded-lg focus:ring-1 focus:ring-green-600 focus:outline-none"
+                    >
+                      <option value="umkm_chips">UMKM Keripik & Oleh-oleh</option>
+                      <option value="tapioca_factory">Pabrik Mocaf / Tapioka</option>
+                      <option value="fresh_market">Pasar Segar Tradisional</option>
+                      <option value="animal_feed">Pengolah Pakan Ternak</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="font-semibold text-gray-700 block mb-1">
+                      Desa / Lokasi di Trawas:
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Contoh: Desa Duyung, Trawas"
+                      value={villageOrArea}
+                      onChange={(e) => setVillageOrArea(e.target.value)}
+                      className="w-full px-3 py-2 border rounded-lg focus:ring-1 focus:ring-green-600 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="font-semibold text-gray-700 block mb-1">
+                      Kapasitas Serap (kg/batch):
+                    </label>
+                    <input
+                      type="number"
+                      required
+                      min="100"
+                      step="50"
+                      value={maxQuantityKg}
+                      onChange={(e) => setMaxQuantityKg(e.target.value)}
+                      className="w-full px-3 py-2 border rounded-lg focus:ring-1 focus:ring-green-600 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-semibold text-gray-700 block mb-1">
+                      Grade Mutu Diinginkan:
+                    </label>
+                    <select
+                      value={preferredGrade}
+                      onChange={(e) => setPreferredGrade(e.target.value)}
+                      className="w-full px-3 py-2 border rounded-lg focus:ring-1 focus:ring-green-600 focus:outline-none"
+                    >
+                      <option value="A">Grade A (Segar & Kadar Pati Tinggi)</option>
+                      <option value="B">Grade B (Standar Pengolahan)</option>
+                      <option value="C">Grade C (Pakan / Industri)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="font-semibold text-gray-700 block mb-1">
+                    Kontak Telepon / WhatsApp:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Contoh: 0812-3456-7890"
+                    value={contactPhone}
+                    onChange={(e) => setContactPhone(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-1 focus:ring-green-600 focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-2 pt-3 border-t">
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                    className="px-3.5 py-2 border rounded-lg text-gray-600 hover:bg-gray-50 cursor-pointer"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white font-bold rounded-lg cursor-pointer disabled:opacity-50"
+                  >
+                    {saving ? "Menyimpan..." : "Daftarkan Pembeli"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </LayoutWrapper>
   );
