@@ -155,52 +155,59 @@ export default function StockActionsPage() {
                 Belum ada rekomendasi aktif. Klik tombol "Evaluasi Rekomendasi Baru" di atas.
               </div>
             ) : (
-              recommendations.map((rec) => (
-                <div
-                  key={rec.id}
-                  className="p-4 rounded-xl border border-gray-200 bg-white hover:border-green-300 transition-all text-xs space-y-2.5 shadow-2xs"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className={`px-2.5 py-0.5 rounded-full font-bold uppercase text-[11px] ${
-                        rec.recommendation_type === "allocate" ? "bg-blue-100 text-blue-800" :
-                        rec.recommendation_type === "process" ? "bg-purple-100 text-purple-800" :
-                        "bg-green-100 text-green-800"
-                      }`}>
-                        Tindakan: {rec.recommendation_type === "allocate" ? "Alokasi Order" : rec.recommendation_type === "process" ? "Pengolahan Olahan" : "Penjualan Segar"}
-                      </span>
-                      {rec.batch_code && (
-                        <span className="font-semibold text-gray-700 bg-gray-100 px-2 py-0.5 rounded">
-                          Batch: {rec.batch_code}
+              recommendations.map((rec: any) => {
+                const recType = rec.recommendation_type || (rec.recommended_action?.includes("process") ? "process" : rec.recommended_action?.includes("allocate") ? "allocate" : "sell");
+                const estValue = Number(rec.estimated_value ?? rec.estimated_revenue ?? (Number(rec.quantity_kg || 0) * 2400));
+                const estCost = Number(rec.estimated_cost ?? (Number(rec.quantity_kg || 0) * 350));
+                const reasonText = rec.reason || rec.urgency_reason || "Rekomendasi optimasi alokasi pasokan singkong.";
+                const deadlineText = rec.period_end || rec.handling_deadline || "48 Jam (Batas SOP)";
+
+                return (
+                  <div
+                    key={rec.id}
+                    className="p-4 rounded-xl border border-gray-200 bg-white hover:border-green-300 transition-all text-xs space-y-2.5 shadow-2xs"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2.5 py-0.5 rounded-full font-bold uppercase text-[11px] ${
+                          recType === "allocate" ? "bg-blue-100 text-blue-800" :
+                          recType === "process" ? "bg-purple-100 text-purple-800" :
+                          "bg-green-100 text-green-800"
+                        }`}>
+                          Tindakan: {recType === "allocate" ? "Alokasi Order" : recType === "process" ? "Pengolahan Olahan" : "Penjualan Segar"}
                         </span>
-                      )}
-                      <StatusBadge status="SIMULASI" />
+                        {rec.batch_code && (
+                          <span className="font-semibold text-gray-700 bg-gray-100 px-2 py-0.5 rounded">
+                            Batch: {rec.batch_code}
+                          </span>
+                        )}
+                        <StatusBadge status="SIMULASI" />
+                      </div>
+                      <StatusBadge status={rec.status} type="recommendation" />
                     </div>
-                    <StatusBadge status={rec.status} type="recommendation" />
-                  </div>
 
-                  <p className="text-xs text-gray-800 leading-relaxed font-medium">
-                    {rec.reason}
-                  </p>
+                    <p className="text-xs text-gray-800 leading-relaxed font-medium">
+                      {reasonText}
+                    </p>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-gray-100 text-[11px] text-gray-600">
-                    <div>
-                      <span className="text-gray-400 block">Volume Disarankan:</span>
-                      <strong className="text-gray-900 text-xs">{Number(rec.quantity_kg || 0).toLocaleString("id-ID")} kg</strong>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-gray-100 text-[11px] text-gray-600">
+                      <div>
+                        <span className="text-gray-400 block">Volume Disarankan:</span>
+                        <strong className="text-gray-900 text-xs">{Number(rec.quantity_kg || 0).toLocaleString("id-ID")} kg</strong>
+                      </div>
+                      <div>
+                        <span className="text-gray-400 block">Estimasi Nilai:</span>
+                        <strong className="text-green-800 text-xs">Rp {estValue.toLocaleString("id-ID")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-gray-400 block">Estimasi Biaya:</span>
+                        <strong className="text-gray-700 text-xs">Rp {estCost.toLocaleString("id-ID")}</strong>
+                      </div>
+                      <div>
+                        <span className="text-gray-400 block">Batas Waktu:</span>
+                        <strong className="text-gray-900 text-xs">{deadlineText}</strong>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-gray-400 block">Estimasi Nilai:</span>
-                      <strong className="text-green-800 text-xs">Rp {Number(rec.estimated_value || 0).toLocaleString("id-ID")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-gray-400 block">Estimasi Biaya:</span>
-                      <strong className="text-gray-700 text-xs">Rp {Number(rec.estimated_cost || 0).toLocaleString("id-ID")}</strong>
-                    </div>
-                    <div>
-                      <span className="text-gray-400 block">Batas Waktu:</span>
-                      <strong className="text-gray-900 text-xs">{rec.period_end}</strong>
-                    </div>
-                  </div>
 
                   {rec.review_notes && (
                     <div className="p-2 bg-gray-50 rounded-lg text-[11px] text-gray-600 border border-gray-100">
@@ -225,7 +232,8 @@ export default function StockActionsPage() {
                     </div>
                   )}
                 </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
