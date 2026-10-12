@@ -44,9 +44,9 @@ export function Sidebar() {
   const visibleItems = navigationItems.filter((item) => isPathAllowed(item.href));
 
   return (
-    <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col shrink-0 min-h-[calc(100vh-80px)]">
+    <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col shrink-0 sticky top-20 h-[calc(100vh-5rem)] z-20 self-start shadow-xs">
       {/* Brand & Active Role Banner */}
-      <div className="p-4 border-b border-gray-100 space-y-2.5">
+      <div className="p-4 border-b border-gray-100 space-y-2.5 shrink-0">
         <Link href="/dashboard" className="flex items-center justify-between group cursor-pointer">
           <img
             src="/logo.png"
@@ -106,7 +106,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="p-3 border-t border-gray-100 bg-gray-50/70 text-[11px] text-gray-500">
+      <div className="p-3 border-t border-gray-100 bg-gray-50/70 text-[11px] text-gray-500 shrink-0">
         <p className="font-semibold text-gray-700">Trawas, Kab. Mojokerto</p>
         <p className="text-[10px] text-gray-400">Simulasi Rantai Pasok Berkelanjutan</p>
       </div>

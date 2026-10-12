@@ -33,9 +33,9 @@ export function Header({ onRoleChange, onRefresh }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-xs">
+    <header className="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-xs h-auto sm:h-20 shrink-0">
       {/* Simulation Notice Banner */}
-      <div className="bg-amber-500 text-amber-950 px-3 sm:px-4 py-1 text-[11px] sm:text-xs font-semibold flex items-center justify-between border-b border-amber-600 gap-2">
+      <div className="bg-amber-500 text-amber-950 px-3 sm:px-4 py-1 text-[11px] sm:text-xs font-semibold flex items-center justify-between border-b border-amber-600 gap-2 h-7 shrink-0">
         <div className="flex items-center gap-1.5 truncate">
           <AlertTriangle className="w-3.5 h-3.5 text-amber-950 shrink-0" />
           <span className="truncate sm:whitespace-normal">
@@ -47,7 +47,7 @@ export function Header({ onRoleChange, onRefresh }: HeaderProps) {
         </span>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 sm:px-6 py-2.5 gap-2 sm:gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between px-3 sm:px-6 h-auto sm:h-[52px] py-2 sm:py-0 gap-2 sm:gap-4 shrink-0">
         <Link href="/dashboard" className="flex items-center gap-2.5 group cursor-pointer">
           <img
             src="/logo.png"

@@ -49,9 +49,9 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
           }
         }}
       />
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative items-start">
         <Sidebar />
-        <main className="flex-1 p-3.5 sm:p-6 pb-22 md:pb-6 max-w-7xl mx-auto w-full overflow-x-hidden">
+        <main className="flex-1 p-3.5 sm:p-6 pb-22 md:pb-6 max-w-7xl mx-auto w-full overflow-x-hidden min-w-0">
           {!isAllowed ? (
             <div className="max-w-2xl mx-auto my-8 bg-white border border-amber-200 rounded-2xl shadow-sm p-6 sm:p-8 text-center space-y-6">
               <div className="w-14 h-14 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center mx-auto">
