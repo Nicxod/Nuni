@@ -1,3 +1,5 @@
+import { SeasonalTransitionPrediction } from "@/types";
+
 // Standalone simulation dataset for ResiLokal (Trawas, Mojokerto)
 // Ensures 100% functionality and rich data display on Vercel preview & production
 
@@ -857,7 +859,7 @@ export const mockMarketingAutomationRules = [
   },
 ];
 
-export const mockSeasonalClimatePrediction = {
+export const mockSeasonalClimatePrediction: SeasonalTransitionPrediction = {
   current_season: "rainy" as const,
   current_season_label: "🌧️ Musim Hujan Aktif",
   season_confidence_pct: 94.6,
@@ -870,9 +872,55 @@ export const mockSeasonalClimatePrediction = {
   transition_predicted_date: "Minggu ke-4 November 2026 (W4)",
   weeks_until_transition: 2,
   climate_model_source: "AI Agroklimat ResiLokal (SARIMA-LSTM) + BMKG Pos Klimatologi Pasuruan-Mojokerto",
+  sync_interval_mode: "weekly" as const,
+  next_scheduled_sync: "Senin, 19 Oktober 2026 (06:00 WIB)",
+  last_synced_at: "Senin, 12 Oktober 2026 (06:00 WIB)",
+  api_connection_status: "Terhubung & Aktif (BMKG Open Agroklimat API Key: bmkg_agr_trw_2026)",
   early_warning_title: "🚨 Peringatan AI Agroklimat: Transisi Musim Kemarau Tiba dalam 2 Minggu!",
   early_warning_message: "Analisis sensor curah hujan dan model prediksi BMKG mendeteksi penurunan drastis intensitas hujan dari 245 mm/bulan menjadi <40 mm/bulan mulai W4. Tanah pegunungan Trawas akan mengeras sehingga panen umbi lokal diprediksi turun anjlok hingga -65%, sementara permintaan keripik dari wisatawan liburan naik drastis.",
   recommended_action: "Maksimalkan pemanenan dan lakukan preservasi irisan blansir beku (Triple Protection System) minimal 8.000 kg ke Cold Storage Koperasi sekarang sebelum musim panen hujan berakhir, agar bahan baku UMKM keripik aman sepanjang kemarau!",
+  sync_history: [
+    {
+      sync_id: "SYNC-20261012-01",
+      synced_at: "Senin, 12 Okt 2026 06:00 WIB",
+      cycle_type: "weekly_dasarian" as const,
+      rainfall_recorded_mm: 68,
+      soil_status: "Lembap Gembur (Optimal Cabut Umbi)",
+      detected_season: "rainy" as const,
+      harvest_advisory: "Puncak panen hujan aktif (W1-W3). Segera alokasikan preservasi umbi 4.200 kg.",
+      api_status: "success_200" as const,
+    },
+    {
+      sync_id: "SYNC-20261005-01",
+      synced_at: "Senin, 05 Okt 2026 06:00 WIB",
+      cycle_type: "weekly_dasarian" as const,
+      rainfall_recorded_mm: 72,
+      soil_status: "Lembap Gembur",
+      detected_season: "rainy" as const,
+      harvest_advisory: "Kondisi tanah sangat gembur, kadar pati optimal 28%. Panen petak siap serap.",
+      api_status: "success_200" as const,
+    },
+    {
+      sync_id: "SYNC-20260928-01",
+      synced_at: "Senin, 28 Sep 2026 06:00 WIB",
+      cycle_type: "weekly_dasarian" as const,
+      rainfall_recorded_mm: 80,
+      soil_status: "Basah Subur",
+      detected_season: "rainy" as const,
+      harvest_advisory: "Awal musim panen raya singkong Trawas resmi terdeteksi.",
+      api_status: "success_200" as const,
+    },
+    {
+      sync_id: "SYNC-20260921-01",
+      synced_at: "Senin, 21 Sep 2026 06:00 WIB",
+      cycle_type: "weekly_dasarian" as const,
+      rainfall_recorded_mm: 25,
+      soil_status: "Transisi Gembur",
+      detected_season: "dry" as const,
+      harvest_advisory: "Pergeseran massa udara basah monsun barat mulai terbentuk di wilayah Trawas.",
+      api_status: "success_200" as const,
+    },
+  ],
   weekly_climate_timeline: [
     {
       week: "W1",

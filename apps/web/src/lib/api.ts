@@ -142,6 +142,11 @@ export const api = {
     apiFetch<any>(`/forecasts/${type}/latest`),
   getGapAnalysis: () => apiFetch<any>("/forecasts/gap"),
   getClimatePrediction: () => apiFetch<any>("/forecasts/climate"),
+  syncWeeklyClimateData: (interval: "weekly" | "monthly" = "weekly") =>
+    apiFetch<any>("/forecasts/climate/sync", {
+      method: "POST",
+      body: JSON.stringify({ interval_mode: interval }),
+    }),
 
   // Stock Recommendations
   getRecommendations: (status?: string) => {

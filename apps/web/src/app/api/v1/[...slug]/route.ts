@@ -535,6 +535,30 @@ export async function POST(
   if (path === "forecasts/demand/run") {
     return NextResponse.json(mockDemandForecast);
   }
+  if (path === "forecasts/climate/sync") {
+    const interval = body?.interval_mode || "weekly";
+    const nowStr = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
+    const newSyncEntry = {
+      sync_id: "SYNC-" + Date.now(),
+      synced_at: `${nowStr} WIB (Siklus Mingguan Dasarian)`,
+      cycle_type: (interval === "weekly" ? "weekly_dasarian" : "monthly") as any,
+      rainfall_recorded_mm: 68,
+      soil_status: "Lembap Gembur (Optimal Cabut Umbi)",
+      detected_season: "rainy" as const,
+      harvest_advisory: "Puncak panen hujan aktif (W1-W3). Segera alokasikan preservasi umbi 4.200 kg sebelum kemarau W4.",
+      api_status: "success_200" as const,
+    };
+    if (mockSeasonalClimatePrediction.sync_history) {
+      mockSeasonalClimatePrediction.sync_history.unshift(newSyncEntry);
+    }
+    mockSeasonalClimatePrediction.last_synced_at = `${nowStr} WIB`;
+    mockSeasonalClimatePrediction.sync_interval_mode = interval as any;
+    return NextResponse.json({
+      success: true,
+      message: `Data cuaca BMKG Trawas berhasil disinkronkan (${interval === "weekly" ? "Interval Mingguan / Dasarian 7-10 Hari" : "Interval Bulanan"}).`,
+      climate_prediction: mockSeasonalClimatePrediction,
+    });
+  }
   if (path === "stock-recommendations/generate") {
     return NextResponse.json(mockStockActions);
   }

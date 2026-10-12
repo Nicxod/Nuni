@@ -343,6 +343,17 @@ export interface MarketingAutomationRule {
   last_triggered_at?: string;
 }
 
+export interface ClimateSyncLog {
+  sync_id: string;
+  synced_at: string;
+  cycle_type: "weekly_dasarian" | "monthly";
+  rainfall_recorded_mm: number;
+  soil_status: string;
+  detected_season: "rainy" | "dry";
+  harvest_advisory: string;
+  api_status: "success_200" | "cached";
+}
+
 export interface SeasonalTransitionPrediction {
   current_season: "rainy" | "dry";
   current_season_label: string;
@@ -356,9 +367,14 @@ export interface SeasonalTransitionPrediction {
   transition_predicted_date: string;
   weeks_until_transition: number;
   climate_model_source: string;
+  sync_interval_mode?: "weekly" | "monthly";
+  next_scheduled_sync?: string;
+  last_synced_at?: string;
+  api_connection_status?: string;
   early_warning_title: string;
   early_warning_message: string;
   recommended_action: string;
+  sync_history?: ClimateSyncLog[];
   weekly_climate_timeline: {
     week: string;
     date_range: string;
@@ -369,4 +385,5 @@ export interface SeasonalTransitionPrediction {
     action_cue: string;
   }[];
 }
+
 
