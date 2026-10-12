@@ -8,7 +8,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("petani@cassavaflow.local");
+  const [email, setEmail] = useState("petani@resilokal.id");
   const [password, setPassword] = useState("petanipassword123");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -114,7 +114,7 @@ export default function LoginPage() {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onClick={() => setQuickAccount("petani@cassavaflow.local", "petanipassword123")}
+                onClick={() => setQuickAccount("petani@resilokal.id", "petanipassword123")}
                 className="p-2 border border-gray-200 hover:border-green-400 rounded-lg text-left bg-gray-50/50 hover:bg-green-50/50 transition-colors cursor-pointer"
               >
                 <strong className="block text-gray-900 text-[11px]">1. Petani / Poktan</strong>
@@ -123,7 +123,7 @@ export default function LoginPage() {
 
               <button
                 type="button"
-                onClick={() => setQuickAccount("pembeli@cassavaflow.local", "pembelipassword123")}
+                onClick={() => setQuickAccount("pembeli@resilokal.id", "pembelipassword123")}
                 className="p-2 border border-gray-200 hover:border-green-400 rounded-lg text-left bg-gray-50/50 hover:bg-green-50/50 transition-colors cursor-pointer"
               >
                 <strong className="block text-gray-900 text-[11px]">2. Pembeli / UMKM</strong>
@@ -132,7 +132,7 @@ export default function LoginPage() {
 
               <button
                 type="button"
-                onClick={() => setQuickAccount("admin@cassavaflow.local", "adminpassword123")}
+                onClick={() => setQuickAccount("admin@resilokal.id", "adminpassword123")}
                 className="p-2 border border-gray-200 hover:border-green-400 rounded-lg text-left bg-gray-50/50 hover:bg-green-50/50 transition-colors cursor-pointer"
               >
                 <strong className="block text-gray-900 text-[11px]">3. Administrator</strong>
@@ -141,7 +141,7 @@ export default function LoginPage() {
 
               <button
                 type="button"
-                onClick={() => setQuickAccount("viewer@cassavaflow.local", "viewerpassword123")}
+                onClick={() => setQuickAccount("viewer@resilokal.id", "viewerpassword123")}
                 className="p-2 border border-gray-200 hover:border-green-400 rounded-lg text-left bg-gray-50/50 hover:bg-green-50/50 transition-colors cursor-pointer"
               >
                 <strong className="block text-gray-900 text-[11px]">4. Analis / Viewer</strong>

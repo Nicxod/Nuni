@@ -102,7 +102,7 @@ export default function BuyersPage() {
                   </span>
 
                   <div className="mt-2 space-y-1">
-                    {m.matched_reasons.map((r, idx) => (
+                    {(m.matched_reasons || []).map((r, idx) => (
                       <p key={idx} className="text-[11px] text-gray-600 flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
                         {r}
