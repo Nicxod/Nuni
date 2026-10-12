@@ -20,6 +20,8 @@ import {
   Sprout,
   Compass,
   UserCheck,
+  Truck,
+  Megaphone,
 } from "lucide-react";
 import { useRole, UserRole } from "@/context/RoleContext";
 
@@ -31,8 +33,10 @@ const allNavItems = [
   { name: "Rencana Lahan & Panen", href: "/harvest-plans", icon: Calendar },
   { name: "Inventaris Batch Stok", href: "/inventory", icon: Boxes },
   { name: "Tindakan Cerdas Stok (AI)", href: "/stock-actions", icon: CheckCircle2 },
+  { name: "Pelacakan & Klaim Remuk", href: "/delivery-claims", icon: Truck },
   { name: "Transaksi & Riwayat", href: "/transactions", icon: Receipt },
   { name: "Direktori Pembeli", href: "/buyers", icon: Store },
+  { name: "Otomasi Pemasaran", href: "/marketing-automation", icon: Megaphone },
   { name: "Kalkulator Pengolahan", href: "/processing-calculator", icon: Calculator },
   { name: "Laporan & Ringkasan", href: "/reports", icon: FileText },
 ];

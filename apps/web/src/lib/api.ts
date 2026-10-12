@@ -193,4 +193,40 @@ export const api = {
     apiFetch<any>("/system/seed", {
       method: "POST",
     }),
+
+  // Delivery Tracking & Damage/Breakage Claims (Lapisan Sistem Informasi Logistik)
+  getDeliveries: () => apiFetch<any[]>("/deliveries"),
+  createDelivery: (data: any) =>
+    apiFetch<any>("/deliveries", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  getDamageClaims: () => apiFetch<any[]>("/damage-claims"),
+  createDamageClaim: (data: any) =>
+    apiFetch<any>("/damage-claims", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  reviewDamageClaim: (claimId: string, action: "approve" | "reject", notes?: string, compAmount?: number) =>
+    apiFetch<any>(`/damage-claims/${claimId}/review`, {
+      method: "POST",
+      body: JSON.stringify({ action, notes, compensation_amount: compAmount }),
+    }),
+
+  // Marketing Automation & Broadcast (Lapisan Sistem Informasi Pemasaran)
+  getMarketingCampaigns: () => apiFetch<any[]>("/marketing-campaigns"),
+  createMarketingCampaign: (data: any) =>
+    apiFetch<any>("/marketing-campaigns", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  sendMarketingCampaign: (campaignId: string) =>
+    apiFetch<any>(`/marketing-campaigns/${campaignId}/send`, {
+      method: "POST",
+    }),
+  getMarketingRules: () => apiFetch<any[]>("/marketing-automation-rules"),
+  toggleMarketingRule: (ruleId: string) =>
+    apiFetch<any>(`/marketing-automation-rules/${ruleId}/toggle`, {
+      method: "POST",
+    }),
 };

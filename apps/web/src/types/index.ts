@@ -249,3 +249,86 @@ export interface BuyerMatchItem {
   target_price_per_kg: number | null;
   contact_phone: string | null;
 }
+
+export interface DamageClaim {
+  id: string;
+  claim_code: string;
+  delivery_id: string;
+  tracking_code: string;
+  buyer_name: string;
+  reported_at: string;
+  item_type: string;
+  total_shipped_kg: number;
+  damaged_kg: number;
+  breakage_percentage: number;
+  damage_type: "remuk_keripik" | "patah_umbi_singkong" | "busuk_ppd_transit" | "kemasan_rusak";
+  tolerance_threshold_pct: number;
+  is_exceeding_tolerance: boolean;
+  photo_url?: string;
+  buyer_notes: string;
+  status: "diajukan" | "dalam_verifikasi" | "disetujui" | "ditolak";
+  compensation_scheme: "potong_faktur_berikutnya" | "kirim_batch_pengganti" | "refund_dana";
+  compensation_amount_rp: number;
+  reviewed_by?: string;
+  review_notes?: string;
+}
+
+export interface DeliveryTimelineEvent {
+  time: string;
+  title: string;
+  location: string;
+  status: "completed" | "current" | "upcoming";
+  note: string;
+}
+
+export interface DeliveryOrder {
+  id: string;
+  tracking_code: string;
+  transaction_id?: string;
+  buyer_id: string;
+  buyer_name: string;
+  destination_address: string;
+  item_type: "Singkong Segar Grade A" | "Singkong Segar Grade B" | "Keripik Singkong Barokah" | "Tepung Mocaf Duyung";
+  quantity_kg: number;
+  package_count: number;
+  driver_name: string;
+  driver_phone: string;
+  vehicle_type: string;
+  vehicle_plate: string;
+  departure_time: string;
+  estimated_arrival: string;
+  actual_arrival?: string;
+  status: "dipersiapkan" | "dalam_perjalanan" | "terkirim" | "ada_klaim";
+  current_location: string;
+  temperature_c?: number;
+  fragile_level: "tinggi_rentan_remuk" | "sedang" | "standar";
+  timeline: DeliveryTimelineEvent[];
+  claims: DamageClaim[];
+}
+
+export interface MarketingCampaign {
+  id: string;
+  campaign_name: string;
+  channel: "whatsapp" | "email" | "katalog_web";
+  trigger_source: "otomatis_surplus_panen" | "jadwal_panen_mingguan" | "promosi_olahan_umkm";
+  target_segment: string;
+  recipient_count: number;
+  message_content: string;
+  status: "aktif" | "terjadwal" | "terkirim" | "draft";
+  sent_at?: string;
+  open_rate_pct: number;
+  response_rate_pct: number;
+  converted_orders_kg: number;
+  created_at: string;
+}
+
+export interface MarketingAutomationRule {
+  id: string;
+  rule_name: string;
+  condition_description: string;
+  action_description: string;
+  channel: "whatsapp" | "email" | "katalog_web";
+  is_active: boolean;
+  total_triggered_count: number;
+  last_triggered_at?: string;
+}

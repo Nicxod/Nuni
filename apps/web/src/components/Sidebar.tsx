@@ -16,6 +16,8 @@ import {
   Calculator,
   FileText,
   Compass,
+  Truck,
+  Megaphone,
 } from "lucide-react";
 import { useRole } from "@/context/RoleContext";
 
@@ -27,8 +29,10 @@ const navigationItems = [
   { name: "Rencana Lahan & Panen", href: "/harvest-plans", icon: Calendar },
   { name: "Inventaris Batch Stok", href: "/inventory", icon: Boxes },
   { name: "Tindakan Cerdas Stok", href: "/stock-actions", icon: CheckCircle2 },
+  { name: "Pelacakan & Klaim Remuk", href: "/delivery-claims", icon: Truck },
   { name: "Transaksi & Riwayat", href: "/transactions", icon: Receipt },
   { name: "Direktori Pembeli", href: "/buyers", icon: Store },
+  { name: "Otomasi Pemasaran", href: "/marketing-automation", icon: Megaphone },
   { name: "Kalkulator Pengolahan", href: "/processing-calculator", icon: Calculator },
   { name: "Laporan & Ringkasan", href: "/reports", icon: FileText },
 ];
@@ -59,7 +63,7 @@ export function Sidebar() {
           <div className="flex items-center justify-between font-bold text-[11px]">
             <span>{config.shortLabel}</span>
             <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/70 uppercase tracking-wide">
-              {visibleItems.length}/11 Fitur
+              {visibleItems.length}/{navigationItems.length} Fitur
             </span>
           </div>
           <p className="text-[10px] opacity-90 mt-1 leading-snug">

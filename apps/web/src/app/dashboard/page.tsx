@@ -14,6 +14,8 @@ import {
   XCircle,
   Sparkles,
   Info,
+  Truck,
+  Megaphone,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -142,7 +144,21 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/delivery-claims"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-800 bg-rose-50 border border-rose-300 rounded-lg hover:bg-rose-100 transition-colors shadow-xs cursor-pointer"
+            >
+              <Truck className="w-3.5 h-3.5" />
+              Pelacakan & Klaim Remuk
+            </Link>
+            <Link
+              href="/marketing-automation"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-purple-800 bg-purple-50 border border-purple-300 rounded-lg hover:bg-purple-100 transition-colors shadow-xs cursor-pointer"
+            >
+              <Megaphone className="w-3.5 h-3.5" />
+              Otomasi Pemasaran
+            </Link>
             <Link
               href="/forecast/gap"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-green-800 bg-green-50 border border-green-300 rounded-lg hover:bg-green-100 transition-colors cursor-pointer"

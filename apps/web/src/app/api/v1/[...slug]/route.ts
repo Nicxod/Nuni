@@ -11,6 +11,9 @@ import {
   mockStockActions,
   mockTransactions,
   mockProcessingOptions,
+  mockDeliveries,
+  mockMarketingCampaigns,
+  mockMarketingAutomationRules,
 } from "@/lib/mockData";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://ketlojcjikrchzlmrufz.supabase.co";
@@ -286,6 +289,10 @@ export async function GET(
   if (path === "transactions") return NextResponse.json(mockTransactions);
   if (path === "processing-options") return NextResponse.json(mockProcessingOptions);
   if (path === "stock-recommendations") return NextResponse.json(mockStockActions);
+  if (path === "deliveries") return NextResponse.json(mockDeliveries);
+  if (path === "damage-claims") return NextResponse.json(mockDeliveries.flatMap((d) => d.claims || []));
+  if (path === "marketing-campaigns") return NextResponse.json(mockMarketingCampaigns);
+  if (path === "marketing-automation-rules") return NextResponse.json(mockMarketingAutomationRules);
 
   if (path === "forecasts/supply/latest") {
     return NextResponse.json(await getDynamicSupplyForecast());
@@ -612,6 +619,110 @@ export async function POST(
     return NextResponse.json({
       message: "Data simulasi rantai pasok Trawas ResiLokal berhasil dimuat ulang.",
     });
+  }
+
+  // 5. Deliveries & Damage Claims Handlers
+  if (path === "deliveries") {
+    const newDel = {
+      id: "del-" + Date.now(),
+      tracking_code: `TRW-LOG-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}-${Math.floor(Math.random() * 90 + 10)}`,
+      departure_time: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) + " WIB",
+      status: "dalam_perjalanan",
+      current_location: "Berangkat dari Pos Pengumpul Trawas",
+      temperature_c: 24.8,
+      timeline: [
+        {
+          time: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) + " WIB",
+          title: "Surat Jalan Logistik Diaktifkan",
+          location: "Pos Pengumpul Trawas",
+          status: "completed",
+          note: "Armada diberangkatkan ke lokasi penerima.",
+        },
+      ],
+      claims: [],
+      ...body,
+    };
+    mockDeliveries.unshift(newDel as any);
+    return NextResponse.json(newDel);
+  }
+
+  if (path === "damage-claims") {
+    const targetDel = mockDeliveries.find((d) => d.id === body.delivery_id || d.tracking_code === body.tracking_code) || mockDeliveries[0];
+    const newClaim = {
+      id: "clm-" + Date.now(),
+      claim_code: `CLM-TRW-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}-${Math.floor(Math.random() * 90 + 10)}`,
+      reported_at: new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }) + " " + new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) + " WIB",
+      status: "diajukan",
+      tolerance_threshold_pct: 5.0,
+      is_exceeding_tolerance: Number(body.breakage_percentage || 0) > 5.0,
+      compensation_scheme: body.compensation_scheme || "potong_faktur_berikutnya",
+      compensation_amount_rp: Number(body.compensation_amount_rp || (Number(body.damaged_kg || 0) * 15000)),
+      ...body,
+    };
+    if (targetDel) {
+      (targetDel as any).status = "ada_klaim";
+      if (!(targetDel as any).claims) (targetDel as any).claims = [];
+      ((targetDel as any).claims as any[]).unshift(newClaim);
+    }
+    return NextResponse.json(newClaim);
+  }
+
+  if (path.startsWith("damage-claims/") && path.endsWith("/review")) {
+    const claimId = path.split("/")[1];
+    let foundClaim: any = null;
+    for (const d of mockDeliveries) {
+      const c = (d.claims || []).find((item: any) => item.id === claimId);
+      if (c) {
+        c.status = body.action === "approve" ? "disetujui" : "ditolak";
+        c.review_notes = body.notes || (body.action === "approve" ? "Klaim disetujui sesuai SOP Garansi Renyah" : "Ditolak karena kerusakan di bawah batas toleransi SOP 5%");
+        c.reviewed_by = "Koordinator Logistik ResiLokal";
+        if (body.compensation_amount) c.compensation_amount_rp = body.compensation_amount;
+        foundClaim = c;
+        break;
+      }
+    }
+    return NextResponse.json(foundClaim || { success: true });
+  }
+
+  // 6. Marketing Automation Handlers
+  if (path === "marketing-campaigns") {
+    const newCamp = {
+      id: "camp-" + Date.now(),
+      created_at: new Date().toISOString(),
+      status: "aktif",
+      sent_at: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) + " WIB",
+      open_rate_pct: 85.0,
+      response_rate_pct: 60.0,
+      converted_orders_kg: 2500,
+      ...body,
+    };
+    mockMarketingCampaigns.unshift(newCamp as any);
+    return NextResponse.json(newCamp);
+  }
+
+  if (path.startsWith("marketing-campaigns/") && path.endsWith("/send")) {
+    const campId = path.split("/")[1];
+    const camp = mockMarketingCampaigns.find((c) => c.id === campId);
+    if (camp) {
+      camp.status = "terkirim";
+      camp.sent_at = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }) + " WIB";
+      camp.open_rate_pct = 96.5;
+      camp.response_rate_pct = 72.0;
+    }
+    return NextResponse.json({ success: true, message: "Broadcast kampanye berhasil dikirim ke mitra." });
+  }
+
+  if (path.startsWith("marketing-automation-rules/") && path.endsWith("/toggle")) {
+    const ruleId = path.split("/")[1];
+    const rule = mockMarketingAutomationRules.find((r) => r.id === ruleId);
+    if (rule) {
+      rule.is_active = !rule.is_active;
+      if (rule.is_active) {
+        rule.total_triggered_count += 1;
+        rule.last_triggered_at = "Baru saja aktif";
+      }
+    }
+    return NextResponse.json({ success: true, is_active: rule?.is_active });
   }
 
   return NextResponse.json({ success: true, ...body });

@@ -23,6 +23,8 @@ const PATH_ROLE_HINTS: Record<string, { name: string; roles: string[]; recommend
   "/processing-calculator": { name: "Kalkulator Pengolahan", roles: ["Pembeli / UMKM", "Admin"], recommendedRole: "buyer" },
   "/transactions": { name: "Transaksi & Riwayat", roles: ["Pembeli / UMKM", "Admin"], recommendedRole: "buyer" },
   "/buyers": { name: "Direktori Pembeli", roles: ["Pembeli / UMKM", "Admin"], recommendedRole: "buyer" },
+  "/delivery-claims": { name: "Pelacakan & Klaim Remuk", roles: ["Pembeli / UMKM", "Admin", "Pengawas"], recommendedRole: "buyer" },
+  "/marketing-automation": { name: "Otomasi Pemasaran", roles: ["Pembeli / UMKM", "Petani / Poktan", "Admin"], recommendedRole: "admin" },
   "/reports": { name: "Laporan & Ringkasan", roles: ["Admin / Koordinator", "Pengawas"], recommendedRole: "admin" },
 };
 
